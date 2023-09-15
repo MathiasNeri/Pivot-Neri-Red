@@ -27,6 +27,7 @@ func main() {
 		case "2":
 			fmt.Println("Accès au contenu de l'inventaire...")
 			P1.accessInventory()
+			P1.takePot()
 		case "3":
 			fmt.Println("Merci d'avoir joué, a bientôt !")
 			os.Exit(0)
@@ -71,6 +72,22 @@ func (inv Character) accessInventory() {
 	}
 }
 
-func takePot() {
+func (c *Character) takePot() {
+	potion, found := c.inventory["Potion"]
+	if !found {
+		fmt.Println("Vous n'avez pas de potion dans l'inventaire.")
+		return
+	}
 
+	delete(c.inventory, "Potion")
+	healingAmount := 50
+
+	c.current_hp += healingAmount
+
+	if c.current_hp > c.hp_max {
+		c.current_hp = c.hp_max
+	}
+
+	fmt.Printf("Vous avez utilisé une potion et avez récupéré %d points de vie.\n", healingAmount)
+	fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
 }
