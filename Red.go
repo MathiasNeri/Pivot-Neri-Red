@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+//mathias le looser
+
 func main() {
 	inventory := map[string]string{"Arme": "Épée", "Armure": "Légère"}
 	P1 := Init("Mat", "Elfe", 1, 100, 40, inventory)
