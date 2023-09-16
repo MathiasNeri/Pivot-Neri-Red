@@ -14,17 +14,21 @@ func main() {
 
 	var choix string
 
-	for choix != "4" {
+	for choix != "0" {
 		fmt.Println("Menu :")
 		fmt.Println("1. Afficher les informations du personnage")
 		fmt.Println("2. Accéder au contenu de l'inventaire")
 		fmt.Println("3. Vérifier si je suis mort")
-		fmt.Println("4. Quitter")
+		fmt.Println("7. Apprendre Boule de Feu ")
+		fmt.Println("0. Quitter")
 
 		fmt.Print("Choisissez une option (1/2/3/4) : ")
 		fmt.Scanln(&choix)
 
 		switch choix {
+		case "0":
+			fmt.Println("Merci d'avoir joué, a bientôt !")
+			os.Exit(0)
 		case "1":
 			fmt.Println("Affichage des informations du personnage...")
 			P1.displayInfo()
@@ -35,11 +39,12 @@ func main() {
 		case "3":
 			fmt.Println("Vérifier si je suis mort...")
 			P1.dead()
-		case "4":
-			fmt.Println("Merci d'avoir joué, a bientôt !")
-			os.Exit(0)
+		case "7":
+			fmt.Println("Apprendre la compétence Boule de Feu")
+			P1.spellBook()
+
 		default:
-			fmt.Println("Choix invalide. Veuillez choisir une option valide (1/2/3/4).")
+			fmt.Println("Choix invalide. Veuillez choisir une option valide (1/2/3/7/0).")
 		}
 
 		fmt.Println()
@@ -109,4 +114,15 @@ func (c *Character) dead() {
 	} else {
 		fmt.Println("Il vous reste", c.current_hp, "PV")
 	}
+}
+
+func (c *Character) spellBook() {
+	for _, i := range c.skill {
+		if i == "Livre de Sort : Boule de Feu" {
+			fmt.Println("Vous maitrisez deja la compétence Boule de Feu !")
+			return
+		}
+	}
+	c.skill = append(c.skill, "Livre de Sort : Boule de Feu")
+	fmt.Println("Vous venez d'apprendre la compétence Boule de Feu !")
 }
