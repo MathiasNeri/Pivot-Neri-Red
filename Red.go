@@ -103,7 +103,7 @@ func (c *Character) takePot() {
 
 func (c *Character) dead() {
 	if c.current_hp == 0 {
-		fmt.Println("Vous êtes mort !")
+		fmt.Println("Vous êtes mort !!")
 		c.current_hp += c.hp_max / 2
 		fmt.Println("Vous venez de récussité avec", c.current_hp, "PV")
 	} else {
