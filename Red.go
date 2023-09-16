@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+//mathias le looser
+
 func main() {
 	inventory := map[string]string{"Arme": "Épée", "Armure": "Légère"}
 	P1 := Init("Mat", "Elfe", 1, 100, 40, inventory)
@@ -59,14 +61,14 @@ func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, i
 	}
 	return Character
 }
-func (c Character) displayInfo() {
+func (c *Character) displayInfo() {
 	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d  \n",
 		c.nickname, c.classe, c.lvl,
 		c.hp_max, c.current_hp)
 
 }
 
-func (inv Character) accessInventory() {
+func (inv *Character) accessInventory() {
 	for i, value := range inv.inventory {
 		fmt.Printf("\n %s : %s \n", i, value)
 	}
@@ -90,4 +92,8 @@ func (c *Character) takePot() {
 
 	fmt.Printf("Vous avez utilisé une potion et avez récupéré %d points de vie.\n", healingAmount)
 	fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
+}
+
+func dead(c *Character) {
+
 }
