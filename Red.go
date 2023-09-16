@@ -60,19 +60,23 @@ func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, i
 	}
 	return Character
 }
-func (c Character) displayInfo() {
+func (c *Character) displayInfo() {
 	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d  \n",
 		c.nickname, c.classe, c.lvl,
 		c.hp_max, c.current_hp)
 
 }
 
-func (inv Character) accessInventory() {
+func (inv *Character) accessInventory() {
 	for i, value := range inv.inventory {
 		fmt.Printf("\n %s : %s \n", i, value)
 	}
 }
 
 func takePot() {
+
+}
+
+func dead(c *Character) {
 
 }
