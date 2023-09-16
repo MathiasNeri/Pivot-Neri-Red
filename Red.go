@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 )
 
 func main() {
@@ -92,19 +93,62 @@ func (c *Character) accessInventory() {
 }
 
 func (c *Character) takePot() {
-	if c.inventory["Potion de Soin"] > 0 {
-		c.inventory["Potion de Soin"]--
-		pointsDeSoins := 50
-		c.current_hp += pointsDeSoins
+	fmt.Println("Quelle potion souhaitez-vous prendre ?")
+	fmt.Println("1. Potion de Soin")
+	fmt.Println("2. Potion de Poison")
+	var choix string
+	fmt.Print("Choisissez une option (1/2) : ")
+	fmt.Scanln(&choix)
 
-		if c.current_hp > c.hp_max {
-			c.current_hp = c.hp_max
+	switch choix {
+	case "1":
+		if c.inventory["Potion de Soin"] > 0 {
+			c.inventory["Potion de Soin"]--
+			pointsDeSoins := 50
+			c.current_hp += pointsDeSoins
+
+			if c.current_hp > c.hp_max {
+				c.current_hp = c.hp_max
+			}
+
+			fmt.Printf("Vous avez utilisé une Potion de Soin et avez récupéré %d points de vie.\n", pointsDeSoins)
+			fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
+		} else {
+			fmt.Println("Vous n'avez pas de Potion de Soin dans l'inventaire.")
 		}
+	case "2":
+		if c.inventory["Potion de Poison"] > 0 {
+			c.inventory["Potion de Poison"]--
+			poisonDuration := 3 * time.Second
+			damageInterval := 1 * time.Second
+			damagePerTick := 10
 
-		fmt.Printf("Vous avez utilisé une Potion de Soin et avez récupéré %d points de vie.\n", pointsDeSoins)
-		fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
-	} else {
-		fmt.Println("Vous n'avez pas de Potion de Soin dans l'inventaire.")
+			fmt.Println("Vous avez été empoisonné !")
+
+			ticker := time.NewTicker(damageInterval)
+			defer ticker.Stop()
+
+			damageTimer := time.NewTimer(poisonDuration)
+			defer damageTimer.Stop()
+
+			for {
+				select {
+				case <-ticker.C:
+					c.current_hp -= damagePerTick
+					if c.current_hp < 0 {
+						c.current_hp = 0
+					}
+					fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
+				case <-damageTimer.C:
+					fmt.Println("L'effet de poison est terminé.")
+					return
+				}
+			}
+		} else {
+			fmt.Println("Vous n'avez pas de Potion de Poison dans l'inventaire.")
+		}
+	default:
+		fmt.Println("Choix invalide. Veuillez choisir une option valide (1/2).")
 	}
 }
 
@@ -118,19 +162,47 @@ func (c *Character) dead() {
 	}
 }
 
+var potionsDeSoinVendues = 0
+var potionsDePoisonVendues = 0
+
 func marchand(c *Character) {
-	if c.inventory["Potion de Soin"] == 0 {
+	if potionsDeSoinVendues < 1 || potionsDePoisonVendues < 1 {
 		fmt.Println("Articles disponibles chez le marchand :")
-		fmt.Println("1. Potion de Soin (gratuitement)")
+		if potionsDeSoinVendues < 1 {
+			fmt.Println("1. Potion de Soin (gratuitement)")
+		}
+		if potionsDePoisonVendues < 1 {
+			fmt.Println("2. Potion de Poison (gratuitement)")
+		}
 
 		var choix string
-		fmt.Print("Choisissez un article (1 pour la Potion de Soin) : ")
+		fmt.Print("Choisissez un article : \n")
+		if potionsDeSoinVendues < 1 {
+			fmt.Print("1 pour la Potion de Soin\n")
+		}
+		if potionsDePoisonVendues < 1 {
+			fmt.Print("2 pour la Potion de Poison\n")
+		}
+		fmt.Print(": ")
 		fmt.Scanln(&choix)
 
 		switch choix {
 		case "1":
-			c.inventory["Potion de Soin"]++ // Ajoutez la Potion de Soin à l'inventaire du personnage
-			fmt.Println("Vous avez acheté une Potion de Soin et elle a été ajoutée à votre inventaire.")
+			if potionsDeSoinVendues < 1 {
+				c.inventory["Potion de Soin"]++
+				potionsDeSoinVendues++
+				fmt.Println("Vous avez acheté une Potion de Soin et elle a été ajoutée à votre inventaire.")
+			} else {
+				fmt.Println("Le marchand n'a plus de Potion de Soin à vendre.")
+			}
+		case "2":
+			if potionsDePoisonVendues < 1 {
+				c.inventory["Potion de Poison"]++
+				potionsDePoisonVendues++
+				fmt.Println("Vous avez acheté une Potion de Poison et elle a été ajoutée à votre inventaire.")
+			} else {
+				fmt.Println("Le marchand n'a plus de Potion de Poison à vendre.")
+			}
 		default:
 			fmt.Println("Article invalide. Veuillez choisir un article valide.")
 		}
