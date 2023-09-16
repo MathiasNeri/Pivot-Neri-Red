@@ -9,7 +9,8 @@ import (
 
 func main() {
 	inventory := map[string]string{"Arme": "Épée", "Armure": "Légère"}
-	P1 := Init("Mat", "Elfe", 1, 100, 40, inventory)
+	skill := []string{"Coup de Poing"}
+	P1 := Init("Mat", "Elfe", 1, 100, 40, inventory, skill)
 
 	var choix string
 
@@ -45,16 +46,17 @@ func main() {
 	}
 }
 
-type Character struct {
+type Character struct { // creation de la classe Character
 	nickname   string
 	classe     string
 	lvl        int
 	hp_max     int
 	current_hp int
 	inventory  map[string]string
+	skill      []string
 }
 
-func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, inventory map[string]string) Character {
+func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, inventory map[string]string, skill []string) Character { //Init du perso
 	Character := Character{
 		nickname:   nickname,
 		classe:     classe,
@@ -62,13 +64,14 @@ func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, i
 		hp_max:     hp_max,
 		current_hp: current_hp,
 		inventory:  inventory,
+		skill:      skill,
 	}
 	return Character
 }
-func (c *Character) displayInfo() {
-	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d  \n",
+func (c *Character) displayInfo() { //Affiche les infos du perso
+	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d  \n Skill : %s",
 		c.nickname, c.classe, c.lvl,
-		c.hp_max, c.current_hp)
+		c.hp_max, c.current_hp, c.skill)
 
 }
 
