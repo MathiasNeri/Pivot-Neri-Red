@@ -13,6 +13,7 @@ func main() {
 	var choix string
 
 	for choix != "0" {
+		fmt.Println("----------------------------------------------")
 		fmt.Println("Menu :")
 		fmt.Println("0. Quitter")
 		fmt.Println("1. Afficher les informations du personnage")
@@ -22,7 +23,9 @@ func main() {
 		fmt.Println("5. Prendre Potion")
 		fmt.Println("6. Apprendre Boule de Feu ")
 		fmt.Println("7. Créer son personnage")
+		fmt.Println("----------------------------------------------")
 		fmt.Print("Choisissez une option (0/1/2/3/4/5/6/7) : ")
+
 		fmt.Scanln(&choix)
 
 		switch choix {
