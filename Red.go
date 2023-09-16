@@ -164,15 +164,19 @@ func (c *Character) dead() {
 
 var potionsDeSoinVendues = 0
 var potionsDePoisonVendues = 0
+var LivreDeSortBDF = 0
 
-func marchand(c *Character) {
-	if potionsDeSoinVendues < 1 || potionsDePoisonVendues < 1 {
+func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 meme si on a deja acheté un objet
+	if potionsDeSoinVendues < 1 || potionsDePoisonVendues < 1 || LivreDeSortBDF < 1 {
 		fmt.Println("Articles disponibles chez le marchand :")
 		if potionsDeSoinVendues < 1 {
 			fmt.Println("1. Potion de Soin (gratuitement)")
 		}
 		if potionsDePoisonVendues < 1 {
 			fmt.Println("2. Potion de Poison (gratuitement)")
+		}
+		if LivreDeSortBDF < 1 {
+			fmt.Println("3. Livre de Sort : Boule de Feu (gratuitement)")
 		}
 
 		var choix string
@@ -182,6 +186,9 @@ func marchand(c *Character) {
 		}
 		if potionsDePoisonVendues < 1 {
 			fmt.Print("2 pour la Potion de Poison\n")
+		}
+		if LivreDeSortBDF < 1 {
+			fmt.Print("3 pour Livre de Sort : Boule de Feu\n")
 		}
 		fmt.Print(": ")
 		fmt.Scanln(&choix)
@@ -203,6 +210,14 @@ func marchand(c *Character) {
 			} else {
 				fmt.Println("Le marchand n'a plus de Potion de Poison à vendre.")
 			}
+		case "3":
+			if LivreDeSortBDF < 1 {
+				c.inventory["Livre de Sort : Boule de Feu"]++
+				LivreDeSortBDF++
+				fmt.Println("Vous avez acheté Livre de Sort : Boule de Feu et la compétence a été ajoutée à votre inventaire.")
+			} else if LivreDeSortBDF >= 1 {
+				fmt.Println("Le marchand n'a plus de Potion de Livre de Sort :Boule de Feu à vendre.")
+			}
 		default:
 			fmt.Println("Article invalide. Veuillez choisir un article valide.")
 		}
@@ -218,6 +233,14 @@ func (c *Character) spellBook() {
 			return
 		}
 	}
-	c.skill = append(c.skill, "Livre de Sort : Boule de Feu")
-	fmt.Println("Vous venez d'apprendre la compétence Boule de Feu !")
+	for k := range c.inventory {
+		if k == "Livre de Sort : Boule de Feu" {
+			c.skill = append(c.skill, "Livre de Sort : Boule de Feu")
+			fmt.Println("Vous venez d'apprendre la compétence Boule de Feu !")
+			c.inventory["Livre de Sort : Boule de Feu"]--
+			LivreDeSortBDF++
+			return
+		}
+	}
+	fmt.Println("Pour apprendre la compétence Boule de Feu il faut d'abord aller l'acheter au marchand !")
 }
