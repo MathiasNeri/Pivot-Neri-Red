@@ -13,13 +13,14 @@ func main() {
 
 	var choix string
 
-	for choix != "3" {
+	for choix != "4" {
 		fmt.Println("Menu :")
 		fmt.Println("1. Afficher les informations du personnage")
 		fmt.Println("2. Accéder au contenu de l'inventaire")
-		fmt.Println("3. Quitter")
+		fmt.Println("3. Vérifier si je suis mort")
+		fmt.Println("4. Quitter")
 
-		fmt.Print("Choisissez une option (1/2/3) : ")
+		fmt.Print("Choisissez une option (1/2/3/4) : ")
 		fmt.Scanln(&choix)
 
 		switch choix {
@@ -31,10 +32,13 @@ func main() {
 			P1.accessInventory()
 			P1.takePot()
 		case "3":
+			fmt.Println("Vérifier si je suis mort...")
+			P1.dead()
+		case "4":
 			fmt.Println("Merci d'avoir joué, a bientôt !")
 			os.Exit(0)
 		default:
-			fmt.Println("Choix invalide. Veuillez choisir une option valide (1/2/3).")
+			fmt.Println("Choix invalide. Veuillez choisir une option valide (1/2/3/4).")
 		}
 
 		fmt.Println()
@@ -75,25 +79,31 @@ func (inv *Character) accessInventory() {
 }
 
 func (c *Character) takePot() {
-	potion, found := c.inventory["Potion"]
-	if !found {
+	found := c.inventory["Potion"]
+	if found == "" {
 		fmt.Println("Vous n'avez pas de potion dans l'inventaire.")
 		return
 	}
 
 	delete(c.inventory, "Potion")
-	healingAmount := 50
+	pointsDeSoins := 50
 
-	c.current_hp += healingAmount
+	c.current_hp += pointsDeSoins
 
 	if c.current_hp > c.hp_max {
 		c.current_hp = c.hp_max
 	}
 
-	fmt.Printf("Vous avez utilisé une potion et avez récupéré %d points de vie.\n", healingAmount)
+	fmt.Printf("Vous avez utilisé une potion et avez récupéré %d points de vie.\n", pointsDeSoins)
 	fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
 }
 
-func dead(c *Character) {
-
+func (c *Character) dead() {
+	if c.current_hp == 0 {
+		fmt.Println("Vous êtes mort !")
+		c.current_hp += c.hp_max / 2
+		fmt.Println("Vous venez de récussité avec", c.current_hp, "PV")
+	} else {
+		fmt.Println("Il vous reste", c.current_hp, "PV")
+	}
 }
