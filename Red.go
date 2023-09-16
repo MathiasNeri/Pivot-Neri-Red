@@ -6,8 +6,14 @@ import (
 )
 
 func main() {
+<<<<<<< HEAD
 	inventory := map[string]int{"Arme": 1, "Armure": 1} // Utilisez un map[string]int pour compter le nombre d'objets de chaque type
 	P1 := Init("Mat", "Elfe", 1, 100, 40, inventory)
+=======
+	inventory := map[string]string{"Arme": "Épée", "Armure": "Légère"}
+	skill := []string{"Coup de Poing"}
+	P1 := Init("Mat", "Elfe", 1, 100, 40, inventory, skill)
+>>>>>>> 47a1d08f801fa7826e496a7dc3f02d8e2338bd64
 
 	var choix string
 
@@ -50,16 +56,24 @@ func main() {
 	}
 }
 
-type Character struct {
+type Character struct { // creation de la classe Character
 	nickname   string
 	classe     string
 	lvl        int
 	hp_max     int
 	current_hp int
+<<<<<<< HEAD
 	inventory  map[string]int // Utilisez un map[string]int pour compter le nombre d'objets de chaque type
 }
 
 func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, inventory map[string]int) Character {
+=======
+	inventory  map[string]string
+	skill      []string
+}
+
+func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, inventory map[string]string, skill []string) Character { //Init du perso
+>>>>>>> 47a1d08f801fa7826e496a7dc3f02d8e2338bd64
 	Character := Character{
 		nickname:   nickname,
 		classe:     classe,
@@ -67,14 +81,23 @@ func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, i
 		hp_max:     hp_max,
 		current_hp: current_hp,
 		inventory:  inventory,
+		skill:      skill,
 	}
 	return Character
 }
+<<<<<<< HEAD
 
 func (c *Character) displayInfo() {
 	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d  \n",
 		c.nickname, c.classe, c.lvl,
 		c.hp_max, c.current_hp)
+=======
+func (c *Character) displayInfo() { //Affiche les infos du perso
+	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d  \n Skill : %s",
+		c.nickname, c.classe, c.lvl,
+		c.hp_max, c.current_hp, c.skill)
+
+>>>>>>> 47a1d08f801fa7826e496a7dc3f02d8e2338bd64
 }
 
 func (c *Character) accessInventory() {
