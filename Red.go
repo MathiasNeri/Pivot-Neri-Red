@@ -6,10 +6,9 @@ import (
 	"time"
 )
 
-func main() {
+var P1 Character
 
-	inventory := map[string]int{"Arme": 1, "Armure": 1} // Utilisez un map[string]int pour compter le nombre d'objets de chaque type
-	P1 := Init("Mat", "Elfe", 1, 100, 40, inventory, []string{"Coup de poing"})
+func main() {
 
 	var choix string
 
@@ -22,7 +21,8 @@ func main() {
 		fmt.Println("4. Marchand")
 		fmt.Println("5. Prendre Potion")
 		fmt.Println("6. Apprendre Boule de Feu ")
-		fmt.Print("Choisissez une option (0/1/2/3/4/5/6) : ")
+		fmt.Println("7. Créer son personnage")
+		fmt.Print("Choisissez une option (0/1/2/3/4/5/6/7) : ")
 		fmt.Scanln(&choix)
 
 		switch choix {
@@ -47,6 +47,9 @@ func main() {
 		case "6":
 			fmt.Println("Apprendre la compétence Boule de Feu")
 			P1.spellBook()
+		case "7":
+			fmt.Println("Création du personnage :")
+			P1.charCreation()
 
 		default:
 			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6).")
@@ -80,7 +83,7 @@ func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, i
 }
 
 func (c *Character) displayInfo() { //Affiche les infos du perso
-	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d  \n Skill : %s",
+	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d  \n Skill : %s\n",
 		c.nickname, c.classe, c.lvl,
 		c.hp_max, c.current_hp, c.skill)
 }
@@ -243,4 +246,82 @@ func (c *Character) spellBook() {
 		}
 	}
 	fmt.Println("Pour apprendre la compétence Boule de Feu il faut d'abord aller l'acheter au marchand !")
+}
+func Capitalize(s *string) string {
+	result := ""
+	isFirstChar := true
+	for _, char := range *s {
+		if (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9') {
+			if isFirstChar {
+				if char >= 'a' && char <= 'z' {
+					char -= 32
+				}
+				isFirstChar = false
+			} else {
+				if char >= 'A' && char <= 'Z' {
+					char += 32
+				}
+			}
+			result += string(char)
+		} else {
+			isFirstChar = true
+			result += string(char)
+		}
+	}
+	return result
+}
+
+func (c *Character) charCreation() {
+	var nickname string
+	var class int
+
+	fmt.Println("Quel est votre pseudo ?")
+	for {
+		fmt.Scanln(&nickname)
+		if isAlpha(nickname) {
+			break
+		} else {
+			fmt.Println("Le pseudo doit contenir uniquement des lettres. Réessayez :")
+		}
+	}
+	c.nickname = Capitalize(&nickname)
+
+	fmt.Println("Vous vous appelerez donc", c.nickname)
+
+	fmt.Println("Quelle classe souhaitez-vous être ?")
+	fmt.Println("1. Elfe")
+	fmt.Println("2. Humain")
+	fmt.Println("3. Nain")
+	fmt.Print("Choisissez un numéro de classe (1/2/3) : ")
+	fmt.Scanln(&class)
+
+	switch class {
+	case 1:
+		c.classe = "Elfe"
+		fmt.Println("Vous êtes donc un elfe !")
+		inventory := map[string]int{"Arme": 1, "Armure": 1}
+		P1 = Init(c.nickname, c.classe, 1, 80, 40, inventory, []string{"Coup de poing"})
+	case 2:
+		c.classe = "Humain"
+		fmt.Println("Vous êtes donc un Humain !")
+		inventory := map[string]int{"Arme": 1, "Armure": 1}
+		P1 = Init(c.nickname, c.classe, 1, 100, 50, inventory, []string{"Coup de poing"})
+	case 3:
+		c.classe = "Nain"
+		fmt.Println("Vous êtes donc un Nain !")
+		inventory := map[string]int{"Arme": 1, "Armure": 1}
+		P1 = Init(c.nickname, c.classe, 1, 120, 60, inventory, []string{"Coup de poing"})
+	default:
+		fmt.Println("Classe invalide. Vous serez un Humain par défaut.")
+		c.classe = "Humain"
+	}
+}
+
+func isAlpha(s string) bool {
+	for _, char := range s {
+		if !((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')) {
+			return false
+		}
+	}
+	return true
 }
