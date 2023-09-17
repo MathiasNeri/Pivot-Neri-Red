@@ -7,6 +7,7 @@ import (
 )
 
 var P1 Character
+var stock int = 2 // a modifier quand on pourra craft les equipements
 
 func main() {
 	var choix string
@@ -58,7 +59,7 @@ func main() {
 			P1.displayInventory()
 			P1.retirerObjet()
 		default:
-			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8).\n")
+			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8)")
 		}
 	}
 }
@@ -264,8 +265,13 @@ func marchand(c *Character) {
 
 		switch choix {
 		case "1":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
 			if potionsDeSoinVendues < 1 {
 				c.inventory["Potion de Soin"]++
+				stock++
 				potionsDeSoinVendues++
 				c.money -= 3
 				fmt.Println("Vous avez acheté une Potion de Soin pour 3 pièces d'or et elle a été ajoutée à votre inventaire.")
@@ -273,8 +279,13 @@ func marchand(c *Character) {
 				fmt.Println("Le marchand n'a plus de Potion de Soin à vendre.")
 			}
 		case "2":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
 			if potionsDePoisonVendues < 1 {
 				c.inventory["Potion de Poison"]++
+				stock++
 				potionsDePoisonVendues++
 				c.money -= 6
 				fmt.Println("Vous avez acheté une Potion de Poison pour 6 pièces d'or et elle a été ajoutée à votre inventaire.")
@@ -282,8 +293,13 @@ func marchand(c *Character) {
 				fmt.Println("Le marchand n'a plus de Potion de Poison à vendre.")
 			}
 		case "3":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
 			if LivreDeSortBDF < 1 {
 				c.inventory["Livre de Sort : Boule de Feu"]++
+				stock++
 				LivreDeSortBDF++
 				c.money -= 25
 				fmt.Println("Vous avez acheté Livre de Sort : Boule de Feu pour 25 pièces d'or et la compétence a été ajoutée à votre inventaire.")
@@ -291,26 +307,46 @@ func marchand(c *Character) {
 				fmt.Println("Le marchand n'a plus de Potion de Livre de Sort :Boule de Feu à vendre.")
 			}
 		case "4":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
 			if FourrureVendues < 1 {
 				c.inventory["Fourrure de Loup"]++
+				stock++
 				c.money -= 4
 				fmt.Println("Vous avez acheté Fourrure de Loup pour 4 pièces d'or et l'item a été ajoutée à votre inventaire.")
 			}
 		case "5":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
 			if PeauTrollVendue < 1 {
 				c.inventory["Peau de Troll"]++
+				stock++
 				c.money -= 7
 				fmt.Println("Vous avez acheté Peau de Troll pour 7 pièces d'or et l'item' a été ajoutée à votre inventaire.")
 			}
 		case "6":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
 			if CuirSanglierVendue < 1 {
 				c.inventory["Cuir de Sanglier"]++
+				stock++
 				c.money -= 3
 				fmt.Println("Vous avez acheté Cuir de Sanglier pour 3 pièces d'or et l'item a été ajoutée à votre inventaire.")
 			}
 		case "7":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
 			if PlumeCorbeauVendue < 1 {
 				c.inventory["Plume de Corbeau"]++
+				stock++
 				c.money -= 1
 				fmt.Println("Vous avez acheté Plume de Corbeau pour 1 pièce d'or et la compétence a été ajoutée à votre inventaire.")
 			}
@@ -323,14 +359,23 @@ func marchand(c *Character) {
 }
 
 func (c *Character) spellBook() {
-	if c.money >= 25 {
-		c.money -= 25
-		c.skill = append(c.skill, "Boule de Feu")
-		fmt.Println("Vous avez appris la compétence Boule de Feu !")
-		fmt.Printf("Il vous reste %d pièces d'or.\n", c.money)
-	} else {
-		fmt.Println("Vous n'avez pas assez d'argent pour acheter le Livre de Sort : Boule de Feu.")
+	for _, i := range c.skill {
+		if i == "Livre de Sort : Boule de Feu" {
+			fmt.Println("Vous maitrisez déjà la compétence Boule de Feu !")
+			return
+		}
 	}
+	for k := range c.inventory {
+		if k == "Livre de Sort : Boule de Feu" {
+			c.skill = append(c.skill, "Livre de Sort : Boule de Feu")
+			fmt.Println("Vous venez d'apprendre la compétence Boule de Feu !")
+			c.inventory["Livre de Sort : Boule de Feu"]--
+			stock--
+			LivreDeSortBDF++
+			return
+		}
+	}
+	fmt.Println("Pour apprendre la compétence Boule de Feu, il faut d'abord l'acheter chez le marchand.")
 }
 
 func Capitalize(s *string) string {
@@ -415,8 +460,7 @@ func isAlpha(s string) bool {
 }
 
 func (c *Character) LimitInv() bool {
-	if len(c.inventory) > 10 {
-		fmt.Println("Votre inventaire est plein ! Vous ne pouvez plus ajouter d'objets !")
+	if stock == 10 {
 		return false
 	} else {
 		return true
