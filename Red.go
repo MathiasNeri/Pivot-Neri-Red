@@ -9,7 +9,6 @@ import (
 var P1 Character
 
 func main() {
-
 	var choix string
 
 	for choix != "0" {
@@ -21,23 +20,24 @@ func main() {
 		fmt.Println("3. Vérifier si je suis mort")
 		fmt.Println("4. Marchand")
 		fmt.Println("5. Prendre Potion")
-		fmt.Println("6. Apprendre Boule de Feu ")
+		fmt.Println("6. Apprendre Boule de Feu")
 		fmt.Println("7. Créer son personnage")
+		fmt.Println("8. Retirer un objet de l'inventaire")
 		fmt.Println("----------------------------------------------")
-		fmt.Print("Choisissez une option (0/1/2/3/4/5/6/7) : ")
+		fmt.Print("Choisissez une option (0/1/2/3/4/5/6/7/8) : ")
 
 		fmt.Scanln(&choix)
 
 		switch choix {
 		case "0":
-			fmt.Println("Merci d'avoir joué, a bientôt !")
+			fmt.Println("Merci d'avoir joué, à bientôt !")
 			os.Exit(0)
 		case "1":
 			fmt.Println("Affichage des informations du personnage...")
 			P1.displayInfo()
 		case "2":
 			fmt.Println("Accès au contenu de l'inventaire...")
-			P1.accessInventory()
+			P1.displayInventory()
 		case "3":
 			fmt.Println("Vérifier si je suis mort...")
 			P1.dead()
@@ -53,54 +53,86 @@ func main() {
 		case "7":
 			fmt.Println("Création du personnage :")
 			P1.charCreation()
-
+		case "8":
+			fmt.Println("Retirer un objet de l'inventaire :")
+			P1.displayInventory()
+			P1.retirerObjet()
 		default:
-			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6).")
-
-			fmt.Println()
+			fmt.Printf("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8).\n")
 		}
 	}
 }
 
-type Character struct { // creation de la classe Character
-	nickname   string
-	classe     string
-	lvl        int
-	hp_max     int
-	current_hp int
-	money      int
-	inventory  map[string]int // Utilisez un map[string]int pour compter le nombre d'objets de chaque type
-	skill      []string
+type Character struct {
+	nickname      string
+	classe        string
+	lvl           int
+	hp_max        int
+	current_hp    int
+	money         int
+	inventory     map[string]int
+	skill         []string
+	inventoryList []string // Liste des objets de l'inventaire numérotés
 }
 
-func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, money int, inventory map[string]int, skill []string) Character { //Init du perso
+func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, money int, inventory map[string]int, skill []string) Character {
 	Character := Character{
-		nickname:   nickname,
-		classe:     classe,
-		lvl:        lvl,
-		hp_max:     hp_max,
-		current_hp: current_hp,
-		money:      money,
-		inventory:  inventory,
-		skill:      skill,
+		nickname:      nickname,
+		classe:        classe,
+		lvl:           lvl,
+		hp_max:        hp_max,
+		current_hp:    current_hp,
+		money:         money,
+		inventory:     inventory,
+		skill:         skill,
+		inventoryList: []string{}, // Initialise la liste vide
 	}
 	return Character
 }
 
-func (c *Character) displayInfo() { //Affiche les infos du perso
-	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d ;\n Money : %d \n Skill : %s\n",
+func (c *Character) displayInfo() {
+	fmt.Printf("\nNickname: %s\nClass: %s\nLevel: %d\nHp_Max : %d\nCurrent_Hp : %d\nMoney : %d\nSkill : %s\n",
 		c.nickname, c.classe, c.lvl,
 		c.hp_max, c.current_hp, c.money, c.skill)
 }
 
-func (c *Character) accessInventory() {
-	fmt.Println("Inventaire :")
+func (c *Character) displayInventory() {
+	fmt.Println("Inventaire actuel :")
+	i := 1
 	for item, count := range c.inventory {
-		fmt.Printf("%s : %d\n", item, count)
+		fmt.Printf("%d. %s : %d\n", i, item, count)
+		i++
 	}
 }
 
-func (c *Character) takePot() { // il propose direct...
+func (c *Character) retirerObjet() {
+	if len(c.inventoryList) == 0 {
+		fmt.Println("L'inventaire est vide, vous ne pouvez pas retirer d'objet.")
+		return
+	}
+
+	var numObjet int
+	fmt.Print("Numéro de l'objet à retirer : ")
+	fmt.Scanln(&numObjet)
+
+	if numObjet >= 0 && numObjet < len(c.inventoryList) {
+		objetARetirer := c.inventoryList[numObjet]
+		count := c.inventory[objetARetirer]
+		if count > 0 {
+			c.inventory[objetARetirer]--
+			fmt.Printf("Vous avez retiré un(e) %s de l'inventaire.\n", objetARetirer)
+			if c.inventory[objetARetirer] == 0 {
+				delete(c.inventory, objetARetirer)
+			}
+		} else {
+			fmt.Printf("Vous n'avez pas de %s dans l'inventaire.\n", objetARetirer)
+		}
+	} else {
+		fmt.Println("Numéro d'objet invalide. Veuillez choisir un numéro valide.")
+	}
+}
+
+func (c *Character) takePot() {
 	fmt.Println("Quelle potion souhaitez-vous prendre ?")
 	fmt.Println("1. Potion de Soin")
 	fmt.Println("2. Potion de Poison")
@@ -178,10 +210,7 @@ var PeauTrollVendue = 0
 var CuirSanglierVendue = 0
 var PlumeCorbeauVendue = 0
 
-func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 meme si on a deja acheté un objet
-	if !c.LimitInv() {
-		return
-	}
+func marchand(c *Character) {
 	if potionsDeSoinVendues < 1 || potionsDePoisonVendues < 1 || LivreDeSortBDF < 1 || FourrureVendues < 1 || PeauTrollVendue < 1 || CuirSanglierVendue < 1 || PlumeCorbeauVendue < 1 {
 		fmt.Println("Articles disponibles chez le marchand :")
 		if potionsDeSoinVendues < 1 {
@@ -203,7 +232,7 @@ func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 
 			fmt.Println("6. Cuir de Sanglier : 3 pièces d'or")
 		}
 		if PlumeCorbeauVendue < 1 {
-			fmt.Println("7. Plume de Corbeau : 1 pièces d'or")
+			fmt.Println("7. Plume de Corbeau : 1 pièce d'or")
 		}
 
 		var choix string
@@ -289,27 +318,19 @@ func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 
 			fmt.Println("Article invalide. Veuillez choisir un article valide.")
 		}
 	} else {
-		fmt.Println("Le marchand n'a plus d'articles à vendre.")
+		fmt.Println("Le marchand n'a plus d'articles à vendre pour le moment.")
 	}
 }
 
 func (c *Character) spellBook() {
-	for _, i := range c.skill {
-		if i == "Livre de Sort : Boule de Feu" {
-			fmt.Println("Vous maitrisez deja la compétence Boule de Feu !")
-			return
-		}
+	if c.money >= 25 {
+		c.money -= 25
+		c.skill = append(c.skill, "Boule de Feu")
+		fmt.Println("Vous avez appris la compétence Boule de Feu !")
+		fmt.Printf("Il vous reste %d pièces d'or.\n", c.money)
+	} else {
+		fmt.Println("Vous n'avez pas assez d'argent pour acheter le Livre de Sort : Boule de Feu.")
 	}
-	for k := range c.inventory {
-		if k == "Livre de Sort : Boule de Feu" {
-			c.skill = append(c.skill, "Livre de Sort : Boule de Feu")
-			fmt.Println("Vous venez d'apprendre la compétence Boule de Feu !")
-			c.inventory["Livre de Sort : Boule de Feu"]--
-			LivreDeSortBDF++
-			return
-		}
-	}
-	fmt.Println("Pour apprendre la compétence Boule de Feu il faut d'abord aller l'acheter au marchand !")
 }
 func Capitalize(s *string) string {
 	result := ""
