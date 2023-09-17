@@ -179,9 +179,6 @@ var CuirSanglierVendue = 0
 var PlumeCorbeauVendue = 0
 
 func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 meme si on a deja acheté un objet
-	if !c.LimitInv() {
-		return
-	}
 	if potionsDeSoinVendues < 1 || potionsDePoisonVendues < 1 || LivreDeSortBDF < 1 || FourrureVendues < 1 || PeauTrollVendue < 1 || CuirSanglierVendue < 1 || PlumeCorbeauVendue < 1 {
 		fmt.Println("Articles disponibles chez le marchand :")
 		if potionsDeSoinVendues < 1 {
@@ -203,7 +200,7 @@ func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 
 			fmt.Println("6. Cuir de Sanglier : 3 pièces d'or")
 		}
 		if PlumeCorbeauVendue < 1 {
-			fmt.Println("7. Plume de Corbeau : 1 pièces d'or")
+			fmt.Println("7. Plume de Corbeau : 1 pièce d'or")
 		}
 
 		var choix string
