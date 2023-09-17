@@ -68,17 +68,19 @@ type Character struct { // creation de la classe Character
 	lvl        int
 	hp_max     int
 	current_hp int
+	money      int
 	inventory  map[string]int // Utilisez un map[string]int pour compter le nombre d'objets de chaque type
 	skill      []string
 }
 
-func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, inventory map[string]int, skill []string) Character { //Init du perso
+func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, money int, inventory map[string]int, skill []string) Character { //Init du perso
 	Character := Character{
 		nickname:   nickname,
 		classe:     classe,
 		lvl:        lvl,
 		hp_max:     hp_max,
 		current_hp: current_hp,
+		money:      money,
 		inventory:  inventory,
 		skill:      skill,
 	}
@@ -86,9 +88,9 @@ func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, i
 }
 
 func (c *Character) displayInfo() { //Affiche les infos du perso
-	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d  \n Skill : %s\n",
+	fmt.Printf("\n Nickname: %s \n Class: %s \n Level: %d \n Hp_Max : %d \n Current_Hp : %d ;\n Money : %d \n Skill : %s\n",
 		c.nickname, c.classe, c.lvl,
-		c.hp_max, c.current_hp, c.skill)
+		c.hp_max, c.current_hp, c.money, c.skill)
 }
 
 func (c *Character) accessInventory() {
@@ -98,7 +100,7 @@ func (c *Character) accessInventory() {
 	}
 }
 
-func (c *Character) takePot() {
+func (c *Character) takePot() { // il propose direct...
 	fmt.Println("Quelle potion souhaitez-vous prendre ?")
 	fmt.Println("1. Potion de Soin")
 	fmt.Println("2. Potion de Poison")
@@ -303,20 +305,22 @@ func (c *Character) charCreation() {
 		c.classe = "Elfe"
 		fmt.Println("Vous êtes donc un elfe !")
 		inventory := map[string]int{"Arme": 1, "Armure": 1}
-		P1 = Init(c.nickname, c.classe, 1, 80, 40, inventory, []string{"Coup de poing"})
+		P1 = Init(c.nickname, c.classe, 1, 80, 40, 100, inventory, []string{"Coup de poing"})
 	case 2:
 		c.classe = "Humain"
 		fmt.Println("Vous êtes donc un Humain !")
 		inventory := map[string]int{"Arme": 1, "Armure": 1}
-		P1 = Init(c.nickname, c.classe, 1, 100, 50, inventory, []string{"Coup de poing"})
+		P1 = Init(c.nickname, c.classe, 1, 100, 50, 100, inventory, []string{"Coup de poing"})
 	case 3:
 		c.classe = "Nain"
 		fmt.Println("Vous êtes donc un Nain !")
 		inventory := map[string]int{"Arme": 1, "Armure": 1}
-		P1 = Init(c.nickname, c.classe, 1, 120, 60, inventory, []string{"Coup de poing"})
+		P1 = Init(c.nickname, c.classe, 1, 120, 60, 100, inventory, []string{"Coup de poing"})
 	default:
 		fmt.Println("Classe invalide. Vous serez un Humain par défaut.")
 		c.classe = "Humain"
+		inventory := map[string]int{"Arme": 1, "Armure": 1}
+		P1 = Init(c.nickname, c.classe, 1, 100, 50, 100, inventory, []string{"Coup de poing"})
 	}
 }
 
@@ -327,4 +331,13 @@ func isAlpha(s string) bool {
 		}
 	}
 	return true
+}
+
+func (c *Character) LimitInv() bool {
+	if len(c.inventory) > 10 {
+		fmt.Println("Votre inventaire est plein ! Vous ne pouvez plus ajouter d'objets !")
+		return false
+	} else {
+		return true
+	}
 }
