@@ -58,7 +58,7 @@ func main() {
 			P1.displayInventory()
 			P1.retirerObjet()
 		default:
-			fmt.Printf("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8).\n")
+			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8).\n")
 		}
 	}
 }
@@ -210,10 +210,7 @@ var PeauTrollVendue = 0
 var CuirSanglierVendue = 0
 var PlumeCorbeauVendue = 0
 
-func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 meme si on a deja acheté un objet
-	if !c.LimitInv() {
-		return
-	}
+func marchand(c *Character) {
 	if potionsDeSoinVendues < 1 || potionsDePoisonVendues < 1 || LivreDeSortBDF < 1 || FourrureVendues < 1 || PeauTrollVendue < 1 || CuirSanglierVendue < 1 || PlumeCorbeauVendue < 1 {
 		fmt.Println("Articles disponibles chez le marchand :")
 		if potionsDeSoinVendues < 1 {
@@ -268,89 +265,54 @@ func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 
 		switch choix {
 		case "1":
 			if potionsDeSoinVendues < 1 {
-				if (c.money - 3) < 0 {
-					fmt.Println("Vous n'avez pas assez de pièces d'or pour acheter cet item !")
-					return
-				} else {
-					c.inventory["Potion de Soin"]++
-					potionsDeSoinVendues++
-					c.money -= 3
-					fmt.Println("Vous avez acheté une Potion de Soin pour 3 pièces d'or et elle a été ajoutée à votre inventaire.")
-				}
+				c.inventory["Potion de Soin"]++
+				potionsDeSoinVendues++
+				c.money -= 3
+				fmt.Println("Vous avez acheté une Potion de Soin pour 3 pièces d'or et elle a été ajoutée à votre inventaire.")
 			} else {
 				fmt.Println("Le marchand n'a plus de Potion de Soin à vendre.")
 			}
 		case "2":
 			if potionsDePoisonVendues < 1 {
-				if (c.money - 6) < 0 {
-					fmt.Println("Vous n'avez pas assez de pièces d'or pour acheter cet item !")
-					return
-				} else {
-					c.inventory["Potion de Poison"]++
-					potionsDePoisonVendues++
-					c.money -= 6
-					fmt.Println("Vous avez acheté une Potion de Poison pour 6 pièces d'or et elle a été ajoutée à votre inventaire.")
-				}
+				c.inventory["Potion de Poison"]++
+				potionsDePoisonVendues++
+				c.money -= 6
+				fmt.Println("Vous avez acheté une Potion de Poison pour 6 pièces d'or et elle a été ajoutée à votre inventaire.")
 			} else {
 				fmt.Println("Le marchand n'a plus de Potion de Poison à vendre.")
 			}
 		case "3":
 			if LivreDeSortBDF < 1 {
-				if (c.money - 25) < 0 {
-					fmt.Println("Vous n'avez pas assez de pièces d'or pour acheter cet item !")
-					return
-				} else {
-					c.inventory["Livre de Sort : Boule de Feu"]++
-					LivreDeSortBDF++
-					c.money -= 25
-					fmt.Println("Vous avez acheté Livre de Sort : Boule de Feu pour 25 pièces d'or et la compétence a été ajoutée à votre inventaire.")
-				}
+				c.inventory["Livre de Sort : Boule de Feu"]++
+				LivreDeSortBDF++
+				c.money -= 25
+				fmt.Println("Vous avez acheté Livre de Sort : Boule de Feu pour 25 pièces d'or et la compétence a été ajoutée à votre inventaire.")
 			} else if LivreDeSortBDF >= 1 {
 				fmt.Println("Le marchand n'a plus de Potion de Livre de Sort :Boule de Feu à vendre.")
 			}
 		case "4":
 			if FourrureVendues < 1 {
-				if (c.money - 4) < 0 {
-					fmt.Println("Vous n'avez pas assez de pièces d'or pour acheter cet item !")
-					return
-				} else {
-					c.inventory["Fourrure de Loup"]++
-					c.money -= 4
-					fmt.Println("Vous avez acheté Fourrure de Loup pour 4 pièces d'or et l'item a été ajoutée à votre inventaire.")
-				}
+				c.inventory["Fourrure de Loup"]++
+				c.money -= 4
+				fmt.Println("Vous avez acheté Fourrure de Loup pour 4 pièces d'or et l'item a été ajoutée à votre inventaire.")
 			}
 		case "5":
 			if PeauTrollVendue < 1 {
-				if (c.money - 7) < 0 {
-					fmt.Println("Vous n'avez pas assez de pièces d'or pour acheter cet item !")
-					return
-				} else {
-					c.inventory["Peau de Troll"]++
-					c.money -= 7
-					fmt.Println("Vous avez acheté Peau de Troll pour 7 pièces d'or et l'item' a été ajoutée à votre inventaire.")
-				}
+				c.inventory["Peau de Troll"]++
+				c.money -= 7
+				fmt.Println("Vous avez acheté Peau de Troll pour 7 pièces d'or et l'item' a été ajoutée à votre inventaire.")
 			}
 		case "6":
 			if CuirSanglierVendue < 1 {
-				if (c.money - 3) < 0 {
-					fmt.Println("Vous n'avez pas assez de pièces d'or pour acheter cet item !")
-					return
-				} else {
-					c.inventory["Cuir de Sanglier"]++
-					c.money -= 3
-					fmt.Println("Vous avez acheté Cuir de Sanglier pour 3 pièces d'or et l'item a été ajoutée à votre inventaire.")
-				}
+				c.inventory["Cuir de Sanglier"]++
+				c.money -= 3
+				fmt.Println("Vous avez acheté Cuir de Sanglier pour 3 pièces d'or et l'item a été ajoutée à votre inventaire.")
 			}
 		case "7":
 			if PlumeCorbeauVendue < 1 {
-				if (c.money - 1) < 0 {
-					fmt.Println("Vous n'avez pas assez de pièces d'or pour acheter cet item !")
-					return
-				} else {
-					c.inventory["Plume de Corbeau"]++
-					c.money -= 1
-					fmt.Println("Vous avez acheté Plume de Corbeau pour 1 pièce d'or et la compétence a été ajoutée à votre inventaire.")
-				}
+				c.inventory["Plume de Corbeau"]++
+				c.money -= 1
+				fmt.Println("Vous avez acheté Plume de Corbeau pour 1 pièce d'or et la compétence a été ajoutée à votre inventaire.")
 			}
 		default:
 			fmt.Println("Article invalide. Veuillez choisir un article valide.")
@@ -370,6 +332,7 @@ func (c *Character) spellBook() {
 		fmt.Println("Vous n'avez pas assez d'argent pour acheter le Livre de Sort : Boule de Feu.")
 	}
 }
+
 func Capitalize(s *string) string {
 	result := ""
 	isFirstChar := true
