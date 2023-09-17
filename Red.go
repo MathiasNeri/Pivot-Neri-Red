@@ -73,7 +73,7 @@ type Character struct {
 	money         int
 	inventory     map[string]int
 	skill         []string
-	inventoryList []string // Liste des objets de l'inventaire numérotés
+	inventoryList []string
 }
 
 func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, money int, inventory map[string]int, skill []string) Character {
@@ -99,9 +99,11 @@ func (c *Character) displayInfo() {
 
 func (c *Character) displayInventory() {
 	fmt.Println("Inventaire actuel :")
+	c.inventoryList = nil
 	i := 1
 	for item, count := range c.inventory {
 		fmt.Printf("%d. %s : %d\n", i, item, count)
+		c.inventoryList = append(c.inventoryList, item)
 		i++
 	}
 }
@@ -116,6 +118,8 @@ func (c *Character) retirerObjet() {
 	fmt.Print("Numéro de l'objet à retirer : ")
 	fmt.Scanln(&numObjet)
 
+	numObjet--
+
 	if numObjet >= 0 && numObjet < len(c.inventoryList) {
 		objetARetirer := c.inventoryList[numObjet]
 		count := c.inventory[objetARetirer]
@@ -125,6 +129,7 @@ func (c *Character) retirerObjet() {
 			if c.inventory[objetARetirer] == 0 {
 				delete(c.inventory, objetARetirer)
 			}
+			c.displayInventory()
 		} else {
 			fmt.Printf("Vous n'avez pas de %s dans l'inventaire.\n", objetARetirer)
 		}
@@ -132,7 +137,6 @@ func (c *Character) retirerObjet() {
 		fmt.Println("Numéro d'objet invalide. Veuillez choisir un numéro valide.")
 	}
 }
-
 func (c *Character) takePot() {
 	fmt.Println("Quelle potion souhaitez-vous prendre ?")
 	fmt.Println("1. Potion de Soin")
