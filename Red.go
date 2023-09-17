@@ -178,13 +178,13 @@ func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 
 	if potionsDeSoinVendues < 1 || potionsDePoisonVendues < 1 || LivreDeSortBDF < 1 {
 		fmt.Println("Articles disponibles chez le marchand :")
 		if potionsDeSoinVendues < 1 {
-			fmt.Println("1. Potion de Soin (gratuitement)")
+			fmt.Println("1. Potion de Soin : 3 pièces d'or")
 		}
 		if potionsDePoisonVendues < 1 {
-			fmt.Println("2. Potion de Poison (gratuitement)")
+			fmt.Println("2. Potion de Poison 6 pièces d'or")
 		}
 		if LivreDeSortBDF < 1 {
-			fmt.Println("3. Livre de Sort : Boule de Feu (gratuitement)")
+			fmt.Println("3. Livre de Sort : Boule de Feu 25 pièces d'or")
 		}
 
 		var choix string
@@ -206,7 +206,8 @@ func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 
 			if potionsDeSoinVendues < 1 {
 				c.inventory["Potion de Soin"]++
 				potionsDeSoinVendues++
-				fmt.Println("Vous avez acheté une Potion de Soin et elle a été ajoutée à votre inventaire.")
+				c.money -= 3
+				fmt.Println("Vous avez acheté une Potion de Soin pour 3 pièces d'or et elle a été ajoutée à votre inventaire.")
 			} else {
 				fmt.Println("Le marchand n'a plus de Potion de Soin à vendre.")
 			}
@@ -214,7 +215,8 @@ func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 
 			if potionsDePoisonVendues < 1 {
 				c.inventory["Potion de Poison"]++
 				potionsDePoisonVendues++
-				fmt.Println("Vous avez acheté une Potion de Poison et elle a été ajoutée à votre inventaire.")
+				c.money -= 6
+				fmt.Println("Vous avez acheté une Potion de Poison pour 6 pièces d'or et elle a été ajoutée à votre inventaire.")
 			} else {
 				fmt.Println("Le marchand n'a plus de Potion de Poison à vendre.")
 			}
@@ -222,7 +224,8 @@ func marchand(c *Character) { // faire en sorte que le marchand affiche 1, 2, 3 
 			if LivreDeSortBDF < 1 {
 				c.inventory["Livre de Sort : Boule de Feu"]++
 				LivreDeSortBDF++
-				fmt.Println("Vous avez acheté Livre de Sort : Boule de Feu et la compétence a été ajoutée à votre inventaire.")
+				c.money -= 25
+				fmt.Println("Vous avez acheté Livre de Sort : Boule de Feu pour 25 pièces d'or et la compétence a été ajoutée à votre inventaire.")
 			} else if LivreDeSortBDF >= 1 {
 				fmt.Println("Le marchand n'a plus de Potion de Livre de Sort :Boule de Feu à vendre.")
 			}
