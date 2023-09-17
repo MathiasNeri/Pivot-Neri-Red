@@ -58,7 +58,7 @@ func main() {
 			P1.displayInventory()
 			P1.retirerObjet()
 		default:
-			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8).\n")
+			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8).")
 		}
 	}
 }
@@ -72,7 +72,7 @@ type Character struct {
 	money         int
 	inventory     map[string]int
 	skill         []string
-	inventoryList []string // Liste des objets de l'inventaire numérotés
+	inventoryList []string
 }
 
 func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, money int, inventory map[string]int, skill []string) Character {
@@ -98,9 +98,11 @@ func (c *Character) displayInfo() {
 
 func (c *Character) displayInventory() {
 	fmt.Println("Inventaire actuel :")
+	c.inventoryList = nil
 	i := 1
 	for item, count := range c.inventory {
 		fmt.Printf("%d. %s : %d\n", i, item, count)
+		c.inventoryList = append(c.inventoryList, item)
 		i++
 	}
 }
@@ -115,6 +117,8 @@ func (c *Character) retirerObjet() {
 	fmt.Print("Numéro de l'objet à retirer : ")
 	fmt.Scanln(&numObjet)
 
+	numObjet--
+
 	if numObjet >= 0 && numObjet < len(c.inventoryList) {
 		objetARetirer := c.inventoryList[numObjet]
 		count := c.inventory[objetARetirer]
@@ -124,6 +128,7 @@ func (c *Character) retirerObjet() {
 			if c.inventory[objetARetirer] == 0 {
 				delete(c.inventory, objetARetirer)
 			}
+			c.displayInventory()
 		} else {
 			fmt.Printf("Vous n'avez pas de %s dans l'inventaire.\n", objetARetirer)
 		}
@@ -131,7 +136,6 @@ func (c *Character) retirerObjet() {
 		fmt.Println("Numéro d'objet invalide. Veuillez choisir un numéro valide.")
 	}
 }
-
 func (c *Character) takePot() {
 	fmt.Println("Quelle potion souhaitez-vous prendre ?")
 	fmt.Println("1. Potion de Soin")
@@ -323,14 +327,22 @@ func marchand(c *Character) {
 }
 
 func (c *Character) spellBook() {
-	if c.money >= 25 {
-		c.money -= 25
-		c.skill = append(c.skill, "Boule de Feu")
-		fmt.Println("Vous avez appris la compétence Boule de Feu !")
-		fmt.Printf("Il vous reste %d pièces d'or.\n", c.money)
-	} else {
-		fmt.Println("Vous n'avez pas assez d'argent pour acheter le Livre de Sort : Boule de Feu.")
+	for _, i := range c.skill {
+		if i == "Livre de Sort : Boule de Feu" {
+			fmt.Println("Vous maitrisez déjà la compétence Boule de Feu !")
+			return
+		}
 	}
+	for k := range c.inventory {
+		if k == "Livre de Sort : Boule de Feu" {
+			c.skill = append(c.skill, "Livre de Sort : Boule de Feu")
+			fmt.Println("Vous venez d'apprendre la compétence Boule de Feu !")
+			c.inventory["Livre de Sort : Boule de Feu"]--
+			LivreDeSortBDF++
+			return
+		}
+	}
+	fmt.Println("Pour apprendre la compétence Boule de Feu, il faut d'abord l'acheter chez le marchand.")
 }
 
 func Capitalize(s *string) string {
