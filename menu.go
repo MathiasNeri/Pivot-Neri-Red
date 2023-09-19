@@ -21,8 +21,9 @@ func Menu() {
 		fmt.Println("7. Créer son personnage")
 		fmt.Println("8. Retirer un objet de l'inventaire")
 		fmt.Println("9. Forgeron")
+		fmt.Println("10. Voir mes équipements et en équiper un")
 		fmt.Println("----------------------------------------------")
-		fmt.Print("Choisissez une option (0/1/2/3/4/5/6/7/8/9) : ")
+		fmt.Print("Choisissez une option (0/1/2/3/4/5/6/7/8/9/10) : ")
 
 		fmt.Scanln(&choix)
 
@@ -58,8 +59,11 @@ func Menu() {
 		case "9":
 			fmt.Println("Forgeron")
 			P1.Forgeron()
+		case "10":
+			fmt.Println("Gérer les équipements :")
+			GestionEquipements(&P1)
 		default:
-			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8/9)")
+			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8/9/10)")
 		}
 	}
 }
