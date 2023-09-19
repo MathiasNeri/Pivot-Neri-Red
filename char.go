@@ -30,22 +30,22 @@ func (c *Character) CharCreation() {
 	case 1:
 		c.classe = "Elfe"
 		fmt.Println("Vous êtes donc un elfe !")
-		inventory := map[string]int{"Arme": 1, "Armure": 1}
+		inventory := map[string]int{}
 		P1 = Init(c.nickname, c.classe, 1, 80, 40, 100, inventory, []string{"Coup de poing"})
 	case 2:
 		c.classe = "Humain"
 		fmt.Println("Vous êtes donc un Humain !")
-		inventory := map[string]int{"Arme": 1, "Armure": 1}
+		inventory := map[string]int{}
 		P1 = Init(c.nickname, c.classe, 1, 100, 50, 100, inventory, []string{"Coup de poing"})
 	case 3:
 		c.classe = "Nain"
 		fmt.Println("Vous êtes donc un Nain !")
-		inventory := map[string]int{"Arme": 1, "Armure": 1}
+		inventory := map[string]int{}
 		P1 = Init(c.nickname, c.classe, 1, 120, 60, 100, inventory, []string{"Coup de poing"})
 	default:
 		fmt.Println("Classe invalide. Vous serez un Humain par défaut.")
 		c.classe = "Humain"
-		inventory := map[string]int{"Arme": 1, "Armure": 1}
+		inventory := map[string]int{}
 		P1 = Init(c.nickname, c.classe, 1, 100, 50, 100, inventory, []string{"Coup de poing"})
 	}
 }

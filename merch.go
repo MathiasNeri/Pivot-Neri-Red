@@ -147,7 +147,7 @@ func Marchand(c *Character) {
 				c.inventory["Plume de Corbeau"]++
 				stock++
 				c.money -= 1
-				fmt.Println("Vous avez acheté Plume de Corbeau pour 1 pièce d'or et la compétence a été ajoutée à votre inventaire.")
+				fmt.Println("Vous avez acheté Plume de Corbeau pour 1 pièce d'or et l'item a été ajoutée à votre inventaire.")
 			}
 		default:
 			fmt.Println("Article invalide. Veuillez choisir un article valide.")
