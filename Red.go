@@ -7,6 +7,12 @@ import (
 var P1 Character
 var stock int = 2 // a modifier quand on pourra craft les equipements
 
+type Equipement struct {
+	helmet     string
+	chestplate string
+	boots      string
+}
+
 type Character struct {
 	nickname      string
 	classe        string
@@ -17,6 +23,7 @@ type Character struct {
 	inventory     map[string]int
 	skill         []string
 	inventoryList []string
+	equipement    Equipement
 }
 
 func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, money int, inventory map[string]int, skill []string) Character {
