@@ -34,6 +34,13 @@ type Character struct {
 	Equipements   Equipement
 }
 
+type Monstre struct {
+	name     string
+	pvmax    int
+	curpv    int
+	damagept int
+}
+
 func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, money int, inventory map[string]int, skill []string) Character {
 	Character := Character{
 		nickname:      nickname,
@@ -47,6 +54,13 @@ func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, m
 		inventoryList: []string{}, // Initialise la liste vide
 	}
 	return Character
+}
+
+func (m *Monstre) InitGobelin() {
+	m.name = "Gobelin d'entrainement"
+	m.pvmax = 40
+	m.curpv = 40
+	m.damagept = 5
 }
 
 func (c *Character) dead() {
