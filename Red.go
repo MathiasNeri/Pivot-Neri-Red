@@ -80,7 +80,7 @@ func (c *Character) spellBook() {
 }
 
 func (c *Character) LimitInv() bool {
-	if stock == 10 {
+	if stock == leninv {
 		return false
 	} else {
 		return true
