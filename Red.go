@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+var leninv = 10
+
 var P1 Character
 var stock int = 2 // a modifier quand on pourra craft les equipements
 
