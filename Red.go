@@ -117,6 +117,7 @@ func (char1 *Character) EquipHead(s string) bool { // Permet d'équiper la tête
 		char1.Equipement.Tete = s
 		fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		fmt.Println("Vous venez d'équiper : ", s)
+		char1.RemoveItem(s)
 		return true
 	}
 	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
@@ -129,6 +130,7 @@ func (char1 *Character) EquipChest(s string) bool { // Permet d'équiper le tors
 		char1.Equipement.Torse = s
 		fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		fmt.Println("Vous venez d'équiper : ", s)
+		char1.RemoveItem(s)
 		return true
 	}
 	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
@@ -141,6 +143,7 @@ func (char1 *Character) EquipBoots(s string) bool { // Permet d'équiper les bot
 		char1.Equipement.Bottes = s
 		fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		fmt.Println("Vous venez d'équiper : ", s)
+		char1.RemoveItem(s)
 		return true
 	}
 	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
