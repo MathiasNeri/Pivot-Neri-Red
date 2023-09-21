@@ -60,8 +60,9 @@ func Menu() {
 			fmt.Println("Forgeron")
 			P1.Forgeron()
 		case "10":
-			fmt.Println("Gérer les équipements :")
-			GestionEquipements(&P1)
+			fmt.Println("Equipement")
+			menuEquipement(&P1)
+
 		default:
 			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8/9/10)")
 		}

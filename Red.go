@@ -7,18 +7,12 @@ import (
 var leninv = 10
 
 var P1 Character
-var stock int = 2 // a modifier quand on pourra craft les equipements
+var stock int = 2 // À modifier lorsque vous pourrez créer des équipements
 
-type Equipements struct {
-	Nom              string
-	PointsDeVieBonus int
-	Equipe           bool
-}
-
-type Equipement struct {
-	Helmet     Equipements
-	Chestplate Equipements
-	Boots      Equipements
+type equipement struct { // Équipement du joueur
+	Tete   string
+	Torse  string
+	Bottes string
 }
 
 type Character struct {
@@ -31,7 +25,7 @@ type Character struct {
 	inventory     map[string]int
 	skill         []string
 	inventoryList []string
-	Equipements   Equipement
+	Equipement    equipement
 }
 
 type Monstre struct {
@@ -98,5 +92,106 @@ func (c *Character) LimitInv() bool {
 		return false
 	} else {
 		return true
+	}
+}
+
+func (char *equipement) Init(Tete string, Torse string, Bottes string) { // Équipement du personnage
+	char.Tete = Tete
+	char.Torse = Torse
+	char.Bottes = Bottes
+}
+
+func (char1 *Character) ShowEquipement() { // Permet de print la liste de l'équipement équipé
+	fmt.Println("Tête :", char1.Equipement.Tete)
+	fmt.Println("Torse :", char1.Equipement.Torse)
+	fmt.Println("Bottes :", char1.Equipement.Bottes)
+}
+
+func ContainsKey(m map[string]int, key string) bool {
+	_, exists := m[key]
+	return exists
+}
+
+func (char1 *Character) EquipHead(s string) bool { // Permet d'équiper la tête
+	if ContainsKey(char1.inventory, s) {
+		char1.Equipement.Tete = s
+		fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+		fmt.Println("Vous venez d'équiper : ", s)
+		return true
+	}
+	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+	fmt.Println("Vous n'avez rien à équiper")
+	return false
+}
+
+func (char1 *Character) EquipChest(s string) bool { // Permet d'équiper le torse
+	if ContainsKey(char1.inventory, s) {
+		char1.Equipement.Torse = s
+		fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+		fmt.Println("Vous venez d'équiper : ", s)
+		return true
+	}
+	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+	fmt.Println("Vous n'avez rien à équiper")
+	return false
+}
+
+func (char1 *Character) EquipBoots(s string) bool { // Permet d'équiper les bottes
+	if ContainsKey(char1.inventory, s) {
+		char1.Equipement.Bottes = s
+		fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+		fmt.Println("Vous venez d'équiper : ", s)
+		return true
+	}
+	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+	fmt.Println("Vous n'avez rien à équiper")
+	return false
+}
+
+func menuEquipement(char1 *Character) {
+	char1.ShowEquipement()
+	fmt.Println("-------------------EQUIPEMENT--------------------")
+	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+	fmt.Println("Que souhaitez-vous équiper")
+	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+	fmt.Println("1 = Équiper un chapeau de l'aventurier (+10 PV max)")
+	fmt.Println()
+	fmt.Println("2 = Équiper une tunique de l'aventurier (+25 PV max)")
+	fmt.Println()
+	fmt.Println("3 = Équiper des bottes de l'aventurier (+15 PV max)")
+	fmt.Println()
+	fmt.Println("4 = Quitter le menu de l'équipement")
+
+	var choice string
+	fmt.Scanln(&choice) // L'utilisateur entre son choix
+
+	switch choice {
+	case "1":
+		if char1.EquipHead(chapeauAventurier) {
+			fmt.Println("Vous avez équipé un chapeau de l'aventurier (+10 PV max)")
+			char1.Update_Pv_Max() // Met à jour les PV max après avoir équipé le chapeau
+		}
+	case "2":
+		if char1.EquipChest(tuniqueAventurier) {
+			fmt.Println("Vous avez équipé une tunique de l'aventurier (+25 PV max)")
+			char1.Update_Pv_Max() // Met à jour les PV max après avoir équipé la tunique
+		}
+	case "3":
+		if char1.EquipBoots(bottesAventurier) {
+			fmt.Println("Vous avez équipé des bottes de l'aventurier (+15 PV max)")
+			char1.Update_Pv_Max() // Met à jour les PV max après avoir équipé les bottes
+		}
+	}
+}
+
+func (char1 *Character) Update_Pv_Max() {
+	if char1.Equipement.Tete == chapeauAventurier {
+		char1.hp_max += 10
+	}
+	if char1.Equipement.Torse == tuniqueAventurier {
+		char1.hp_max += 25
+	}
+	if char1.Equipement.Bottes == bottesAventurier {
+		char1.hp_max += 15
 	}
 }
