@@ -138,6 +138,10 @@ func (char1 *Character) EquipChest(s string) bool { // Permet d'équiper le tors
 	return false
 }
 
+var chapeauAventurier_mis = 0
+var tuniqueAventurier_mis = 0
+var bottesAventurier_mis = 0
+
 func (char1 *Character) EquipBoots(s string) bool { // Permet d'équiper les bottes
 	if ContainsKey(char1.inventory, s) {
 		char1.Equipement.Bottes = s
@@ -157,32 +161,41 @@ func menuEquipement(char1 *Character) {
 	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 	fmt.Println("Que souhaitez-vous équiper")
 	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-	fmt.Println("1 = Équiper un chapeau de l'aventurier (+10 PV max)")
+	if chapeauAventurier_mis < 1 {
+		fmt.Println("1 = Équiper un chapeau de l'aventurier (+10 PV max)")
+	}
 	fmt.Println()
-	fmt.Println("2 = Équiper une tunique de l'aventurier (+25 PV max)")
+	if tuniqueAventurier_mis < 1 {
+		fmt.Println("2 = Équiper une tunique de l'aventurier (+25 PV max)")
+	}
 	fmt.Println()
-	fmt.Println("3 = Équiper des bottes de l'aventurier (+15 PV max)")
+	if tuniqueAventurier_mis < 1 {
+		fmt.Println("3 = Équiper des bottes de l'aventurier (+15 PV max)")
+	}
 	fmt.Println()
-	fmt.Println("4 = Quitter le menu de l'équipement")
+	fmt.Println("0 = Quitter le menu de l'équipement")
 
 	var choice string
-	fmt.Scanln(&choice) // L'utilisateur entre son choix
+	fmt.Scanln(&choice)
 
 	switch choice {
 	case "1":
 		if char1.EquipHead(chapeauAventurier) {
 			fmt.Println("Vous avez équipé un chapeau de l'aventurier (+10 PV max)")
-			char1.Update_Pv_Max() // Met à jour les PV max après avoir équipé le chapeau
+			char1.Update_Pv_Max()
+			chapeauAventurier_mis += 1
 		}
 	case "2":
 		if char1.EquipChest(tuniqueAventurier) {
 			fmt.Println("Vous avez équipé une tunique de l'aventurier (+25 PV max)")
-			char1.Update_Pv_Max() // Met à jour les PV max après avoir équipé la tunique
+			char1.Update_Pv_Max()
+			tuniqueAventurier_mis += 1
 		}
 	case "3":
 		if char1.EquipBoots(bottesAventurier) {
 			fmt.Println("Vous avez équipé des bottes de l'aventurier (+15 PV max)")
-			char1.Update_Pv_Max() // Met à jour les PV max après avoir équipé les bottes
+			char1.Update_Pv_Max()
+			bottesAventurier_mis += 1
 		}
 	}
 }
