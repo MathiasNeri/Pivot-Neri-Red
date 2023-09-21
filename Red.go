@@ -9,6 +9,11 @@ var leninv = 10
 var P1 Character
 var stock int = 2 // À modifier lorsque vous pourrez créer des équipements
 
+type Attaque struct {
+	nom string
+	dmg int
+}
+
 type equipement struct { // Équipement du joueur
 	Tete   string
 	Torse  string
@@ -169,7 +174,7 @@ func menuEquipement(char1 *Character) {
 		fmt.Println("2 = Équiper une tunique de l'aventurier (+25 PV max)")
 	}
 	fmt.Println()
-	if tuniqueAventurier_mis < 1 {
+	if bottesAventurier_mis < 1 {
 		fmt.Println("3 = Équiper des bottes de l'aventurier (+15 PV max)")
 	}
 	fmt.Println()

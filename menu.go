@@ -11,20 +11,10 @@ func Menu() {
 	for choix != "0" {
 		fmt.Println("----------------------------------------------")
 		fmt.Println("Menu :")
-		fmt.Println("0. Quitter")
-		fmt.Println("1. Afficher les informations du personnage")
-		fmt.Println("2. Accéder au contenu de l'inventaire")
-		fmt.Println("3. Vérifier si je suis mort")
-		fmt.Println("4. Marchand")
-		fmt.Println("5. Prendre Potion")
-		fmt.Println("6. Apprendre Boule de Feu")
-		fmt.Println("7. Créer son personnage")
-		fmt.Println("8. Retirer un objet de l'inventaire")
-		fmt.Println("9. Forgeron")
-		fmt.Println("10. Voir mes équipements et en équiper un")
+		fmt.Println(" 0. Quitter \n 1. Afficher les informations du personnage \n 2. Accéder au contenu de l'inventaire \n 3. Vérifier si je suis mort \n 4. Marchand\n 5. Prendre Potion\n 6. Apprendre Boule de Feu\n 7. Créer son personnage\n 8. Retirer un objet de l'inventaire\n 9. Forgeron\n 10. Voir mes équipements et en équiper un")
 		fmt.Println("----------------------------------------------")
-		fmt.Print("Choisissez une option (0/1/2/3/4/5/6/7/8/9/10) : ")
-
+		fmt.Println("Choisissez une option (0/1/2/3/4/5/6/7/8/9/10) : ")
+		fmt.Println("----------------------------------------------")
 		fmt.Scanln(&choix)
 
 		switch choix {

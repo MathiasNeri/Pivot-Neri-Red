@@ -1,13 +1,20 @@
 package red
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func (c *Character) CharCreation() {
 	var nickname string
 	var class int
-
-	fmt.Println("Quel est votre pseudo ?")
+	pseudo := "\nQuel est votre pseudo ? \n "
+	for _, letter := range pseudo {
+		fmt.Print(string(letter))
+		time.Sleep(5 * time.Millisecond)
+	}
 	for {
+		fmt.Println("")
 		fmt.Scanln(&nickname)
 		if isAlpha(nickname) {
 			break
@@ -17,19 +24,27 @@ func (c *Character) CharCreation() {
 	}
 	c.nickname = Capitalize(&nickname)
 
-	fmt.Println("Vous vous appelerez donc", c.nickname)
+	lenom := ("\nVous vous appelerez donc ")
+	for _, letter := range lenom {
+		fmt.Print(string(letter))
+		time.Sleep(5 * time.Millisecond)
+	}
+	fmt.Print(c.nickname)
+	fmt.Println("")
 
-	fmt.Println("Quelle classe souhaitez-vous être ?")
-	fmt.Println("1. Elfe")
-	fmt.Println("2. Humain")
-	fmt.Println("3. Nain")
-	fmt.Print("Choisissez un numéro de classe (1/2/3) : ")
+	choixc := "\nA quelle classe souhaitez-vous appartenir ?"
+	for _, letter := range choixc {
+		fmt.Print(string(letter))
+		time.Sleep(5 * time.Millisecond)
+	}
+
+	fmt.Println("\n\n1. Elfe : Majestueux, mais avec un vitalité faible...\n\n2. Humain : Ingénieux mais parfois très bêtes...\n\n3. Nain : Pas très grand mais très robuste !\n\nChoisissez un numéro de classe (1/2/3) : ")
 	fmt.Scanln(&class)
 
 	switch class {
 	case 1:
 		c.classe = "Elfe"
-		fmt.Println("Vous êtes donc un elfe !")
+		fmt.Println("Vous êtes donc un Elfe !")
 		inventory := map[string]int{}
 		P1 = Init(c.nickname, c.classe, 1, 80, 40, 100, inventory, []string{"Coup de poing"})
 	case 2:
@@ -47,5 +62,11 @@ func (c *Character) CharCreation() {
 		c.classe = "Humain"
 		inventory := map[string]int{}
 		P1 = Init(c.nickname, c.classe, 1, 100, 50, 100, inventory, []string{"Coup de poing"})
+	}
+
+	Ctipar := "\n\nNous allons pouvoir commencé !\n\n"
+	for _, letter := range Ctipar {
+		fmt.Print(string(letter))
+		time.Sleep(5 * time.Millisecond)
 	}
 }
