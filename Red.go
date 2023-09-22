@@ -7,6 +7,7 @@ import (
 var leninv = 10
 
 var P1 Character
+var M1 Monstre
 var stock int = 2 // À modifier lorsque vous pourrez créer des équipements
 
 type Attaque struct {
