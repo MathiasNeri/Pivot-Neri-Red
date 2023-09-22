@@ -26,7 +26,6 @@ func (c *Character) TPT(m *Monstre) {
 				fmt.Scan(&choix)
 				switch choix {
 				case "1":
-
 					fmt.Println("Le gobelin a perdu 5 pv")
 					m.curpv -= 5
 					if m.curpv <= 0 {
