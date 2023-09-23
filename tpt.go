@@ -1,6 +1,9 @@
 package red
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 func (c *Character) TPT(m *Monstre) {
 	if c.current_hp <= 0 {
@@ -24,11 +27,29 @@ func (c *Character) TPT(m *Monstre) {
 				switch choix {
 				case "1":
 					c.AttaqueBasique(m)
+					if m.curpv <= 0 {
+						fmt.Println("Le monstre est mort !")
+						return
+					}
 				case "2":
-					c.AttaqueSpecifique(m)
+					if Esquive() {
+						fmt.Println("Le monstre a esquivé l'attaque !")
+						continue
+					} else {
+						c.AttaqueSpecifique(m)
+						if m.curpv <= 0 {
+							fmt.Println("Le monstre est mort !")
+							return
+						}
+					}
+
 				default:
 					fmt.Println("Choix invalide, utilisez l'attaque basique.")
 					c.AttaqueBasique(m)
+					if m.curpv <= 0 {
+						fmt.Println("Le monstre est mort !")
+						return
+					}
 				}
 			}
 		}
@@ -38,9 +59,9 @@ func (c *Character) TPT(m *Monstre) {
 // AttaqueBasique effectue l'attaque basique commune à toutes les classes.
 func (c *Character) AttaqueBasique(m *Monstre) {
 	fmt.Println("Attaque basique !")
-	m.curpv -= 10
+	m.curpv -= 5
 	if m.curpv <= 0 {
-		fmt.Println("Le monstre est mort !")
+		fmt.Println("Le monstre n'a plus de point de vie!")
 		return
 	}
 	fmt.Println("Il lui reste", m.curpv, "points de vie.")
@@ -55,7 +76,7 @@ func (c *Character) AttaqueSpecifique(m *Monstre) {
 		fmt.Println("Frappe Sismique !")
 		m.curpv -= 15
 		if m.curpv <= 0 {
-			fmt.Println("Le monstre est mort !")
+			fmt.Println("Le monstre n'a plus de point de vie!")
 			return
 		}
 		fmt.Println("Il lui reste", m.curpv, "points de vie.")
@@ -64,7 +85,7 @@ func (c *Character) AttaqueSpecifique(m *Monstre) {
 		fmt.Println("Tir de Précision !")
 		m.curpv -= 15
 		if m.curpv <= 0 {
-			fmt.Println("Le monstre est mort !")
+			fmt.Println("Le monstre n'a plus de point de vie!")
 			return
 		}
 		fmt.Println("Il lui reste", m.curpv, "points de vie.")
@@ -73,12 +94,24 @@ func (c *Character) AttaqueSpecifique(m *Monstre) {
 		fmt.Println("Stratégie Tactique !")
 		m.curpv -= 15
 		if m.curpv <= 0 {
-			fmt.Println("Le monstre est mort !")
+			fmt.Println("Le monstre n'a plus de point de vie!")
 			return
 		}
 		fmt.Println("Il lui reste", m.curpv, "points de vie.")
 	default:
 		fmt.Println("Classe invalide, utilisez l'attaque basique.")
 		c.AttaqueBasique(m)
+		if m.curpv <= 0 {
+			fmt.Println("Le monstre n'a plus de point de vie!")
+			return
+		}
 	}
+}
+
+func Esquive() bool {
+	esquive := rand.Intn(5)
+	if esquive < 2 {
+		return true
+	}
+	return false
 }
