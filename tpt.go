@@ -1,12 +1,8 @@
 package red
 
-import (
-	"fmt"
-	"math/rand"
-)
+import "fmt"
 
 func (c *Character) TPT(m *Monstre) {
-
 	if c.current_hp <= 0 {
 		fmt.Println("Vous êtes mort !")
 		return
@@ -20,35 +16,69 @@ func (c *Character) TPT(m *Monstre) {
 				fmt.Println("Il vous reste", c.current_hp, "HP")
 			} else {
 				fmt.Println("On attaque !")
-				fmt.Println("\n Choisissez votre attaque : ")
-				fmt.Println("1. Attaque basique (ca passe a chaque fois !)\n2. Attaque puissante (L'attaque est puissante mais le monstre peut l'esquiver !)")
+				fmt.Println("\nChoisissez votre attaque : ")
+				fmt.Println("1. Attaque basique")
+				fmt.Printf("2. Attaque spécifique (%s)\n", c.classe)
 				var choix string
 				fmt.Scan(&choix)
 				switch choix {
 				case "1":
-					fmt.Println("Le gobelin a perdu 5 pv")
-					m.curpv -= 5
-					if m.curpv <= 0 {
-						fmt.Println("Le gobelin est mort!")
-						return
-					}
-					fmt.Println("Il lui reste", m.curpv)
+					c.AttaqueBasique(m)
 				case "2":
-					proba := rand.Intn(5)
-					fmt.Println(proba)
-					if proba < 2 {
-						fmt.Println("Le gobelin a esquivé l'attaque !")
-					} else {
-						fmt.Println("Le gobelin a perdu 15 pv")
-						m.curpv -= 15
-						if m.curpv <= 0 {
-							fmt.Println("Le gobelin est mort!")
-							return
-						}
-						fmt.Println("Il lui reste", m.curpv)
-					}
+					c.AttaqueSpecifique(m)
+				default:
+					fmt.Println("Choix invalide, utilisez l'attaque basique.")
+					c.AttaqueBasique(m)
 				}
 			}
 		}
+	}
+}
+
+// AttaqueBasique effectue l'attaque basique commune à toutes les classes.
+func (c *Character) AttaqueBasique(m *Monstre) {
+	fmt.Println("Attaque basique !")
+	m.curpv -= 10
+	if m.curpv <= 0 {
+		fmt.Println("Le monstre est mort !")
+		return
+	}
+	fmt.Println("Il lui reste", m.curpv, "points de vie.")
+}
+
+// AttaqueSpecifique effectue l'attaque spécifique en fonction de la classe.
+func (c *Character) AttaqueSpecifique(m *Monstre) {
+	fmt.Printf("Attaque spécifique de la classe %s !\n", c.classe)
+	switch c.classe {
+	case "Nain":
+		// Utilisez l'attaque spécifique des nains
+		fmt.Println("Frappe Sismique !")
+		m.curpv -= 15
+		if m.curpv <= 0 {
+			fmt.Println("Le monstre est mort !")
+			return
+		}
+		fmt.Println("Il lui reste", m.curpv, "points de vie.")
+	case "Elfe":
+		// Utilisez l'attaque spécifique des elfes
+		fmt.Println("Tir de Précision !")
+		m.curpv -= 15
+		if m.curpv <= 0 {
+			fmt.Println("Le monstre est mort !")
+			return
+		}
+		fmt.Println("Il lui reste", m.curpv, "points de vie.")
+	case "Humain":
+		// Utilisez l'attaque spécifique des humains
+		fmt.Println("Stratégie Tactique !")
+		m.curpv -= 15
+		if m.curpv <= 0 {
+			fmt.Println("Le monstre est mort !")
+			return
+		}
+		fmt.Println("Il lui reste", m.curpv, "points de vie.")
+	default:
+		fmt.Println("Classe invalide, utilisez l'attaque basique.")
+		c.AttaqueBasique(m)
 	}
 }

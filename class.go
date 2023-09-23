@@ -27,6 +27,7 @@ type Monstre struct {
 }
 
 type Skill struct {
-	nom string
-	dmg int
+	nom         string // Nom de la compétence
+	dmg         int    // Dommages infligés
+	Description string //Courte description de l'attaque
 }
