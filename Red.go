@@ -2,13 +2,14 @@ package red
 
 import (
 	"fmt"
+	"time"
 )
 
 var leninv = 10
 var stock int = 2 // À modifier lorsque vous pourrez créer des équipements
 
-func (c *Character) dead() {
-	if c.current_hp == 0 {
+func (c *Character) Dead() {
+	if c.current_hp <= 0 {
 		fmt.Println("Vous êtes mort !!")
 		c.current_hp += c.hp_max / 2
 		fmt.Println("Vous venez de réssusciter avec", c.current_hp, "PV")
@@ -156,38 +157,34 @@ func (char1 *Character) Update_Pv_Max() {
 	}
 }
 
-// AttaqueBasique crée une attaque basique commune à toutes les classes.
-func AttaqueBasique() Skill {
-	return Skill{
-		nom:         "Attaque basique",
-		dmg:         10, // Mettez les dommages appropriés ici
-		Description: "Attaque de base qui inflige des dommages standard.",
+func Defil(s string) {
+	for _, letter := range s {
+		fmt.Print(string(letter))
+		time.Sleep(30 * time.Millisecond)
 	}
 }
 
-// AttaqueNain crée une attaque spécifique à la classe nain.
-func AttaqueNain() Skill {
-	return Skill{
-		nom:         "Frappe Sismique",
-		dmg:         15, // Dommages spécifiques aux nains
-		Description: "Les nains utilisent leur force et leur robustesse pour créer une onde de choc dévastatrice. Ils frappent le sol avec une grande puissance, provoquant des secousses sismiques qui endommagent leurs ennemis.",
+func DefilAS(s string, c *Character) {
+	for _, letter := range s {
+		fmt.Print(string(letter))
+		time.Sleep(30 * time.Millisecond)
+	}
+	for _, letter := range c.classe {
+		fmt.Print(string(letter))
+		time.Sleep(30 * time.Millisecond)
 	}
 }
 
-// AttaqueElfe crée une attaque spécifique à la classe elfe.
-func AttaqueElfe() Skill {
-	return Skill{
-		nom:         "Tir de Précision",
-		dmg:         15, // Dommages spécifiques aux elfes
-		Description: " Les elfes excellent dans l'archerie. Ils décochent une flèche avec une précision mortelle, visant les points faibles de l'ennemi..",
+func DefilLeft(s string, m *Monstre, s2 string) {
+	for _, letter := range s {
+		fmt.Print(string(letter))
+		time.Sleep(30 * time.Millisecond)
 	}
-}
 
-// AttaqueHumain crée une attaque spécifique à la classe humain.
-func AttaqueHumain() Skill {
-	return Skill{
-		nom:         "Stratégie Tactique",
-		dmg:         15, // Dommages spécifiques aux humains
-		Description: "Les humains sont connus pour leur intelligence. Ils utilisent leur connaissance stratégique pour anticiper les mouvements de l'ennemi et attaquer avec précision.",
+	fmt.Print(m.curpv)
+
+	for _, letter := range s2 {
+		fmt.Print(string(letter))
+		time.Sleep(30 * time.Millisecond)
 	}
 }

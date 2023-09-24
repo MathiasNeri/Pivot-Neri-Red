@@ -29,7 +29,7 @@ func Menu() {
 			P1.displayInventory()
 		case "3":
 			fmt.Println("Vérifier si je suis mort...")
-			P1.dead()
+			P1.Dead()
 		case "4":
 			fmt.Println("Bienvenue chez le marchand !")
 			Marchand(&P1)

@@ -7,47 +7,56 @@ import (
 
 func (c *Character) TPT(m *Monstre) {
 	if c.current_hp <= 0 {
-		fmt.Println("Vous êtes mort !")
+		Defil("Vous êtes mort !\n")
 		return
 	} else {
 		for i := 1; i <= 20; i++ {
 			fmt.Println("Tour", i)
+			fmt.Println("")
 			if i%2 == 0 {
-				fmt.Println("L'ennemi attaque !")
+				Defil("L'ennemi attaque !\n")
+				if i%3 == 0 {
+					Defil("L'ennemi envoie une attaque chargée !\n")
+					c.current_hp -= 10
+					Defil("Vous avez perdu 5 HP\n")
+					c.Dead()
+					continue
+				}
 				c.current_hp -= 5
-				fmt.Println("Vous avez perdu", 5, "HP")
-				fmt.Println("Il vous reste", c.current_hp, "HP")
+				Defil("Vous avez perdu 5 HP\n")
+				c.Dead()
 			} else {
-				fmt.Println("On attaque !")
-				fmt.Println("\nChoisissez votre attaque : ")
-				fmt.Println("1. Attaque basique")
-				fmt.Printf("2. Attaque spécifique (%s)\n", c.classe)
+				Defil("On attaque !\n")
+				Defil("\nChoisissez votre attaque : \n")
+				Defil("1. Attaque basique\n")
+				DefilAS("2. Attaque spécifique des ", &P1)
+				fmt.Println("")
 				var choix string
 				fmt.Scan(&choix)
 				switch choix {
 				case "1":
 					c.AttaqueBasique(m)
 					if m.curpv <= 0 {
-						fmt.Println("Le monstre est mort !")
+						Defil("Le monstre est mort !\n")
 						return
 					}
 				case "2":
 					if Esquive() {
-						fmt.Println("Le monstre a esquivé l'attaque !")
+						Defil("Le monstre a esquivé l'attaque !\n")
 						continue
 					} else {
 						c.AttaqueSpecifique(m)
 						if m.curpv <= 0 {
-							fmt.Println("Le monstre est mort !")
+							Defil("Le monstre est mort !\n")
 							return
 						}
 					}
 
 				default:
-					fmt.Println("Choix invalide, utilisez l'attaque basique.")
+					Defil("Choix invalide, utilisez l'attaque basique.\n")
 					c.AttaqueBasique(m)
 					if m.curpv <= 0 {
-						fmt.Println("Le monstre est mort !")
+						Defil("Le monstre est mort !\n")
 						return
 					}
 				}
@@ -58,51 +67,51 @@ func (c *Character) TPT(m *Monstre) {
 
 // AttaqueBasique effectue l'attaque basique commune à toutes les classes.
 func (c *Character) AttaqueBasique(m *Monstre) {
-	fmt.Println("Attaque basique !")
+	Defil("Attaque basique !\n")
 	m.curpv -= 5
 	if m.curpv <= 0 {
-		fmt.Println("Le monstre n'a plus de point de vie!")
+		Defil("Le monstre n'a plus de point de vie!\n")
 		return
 	}
-	fmt.Println("Il lui reste", m.curpv, "points de vie.")
+	DefilLeft("Il lui reste ", &M1, " points de vie.\n")
 }
 
 // AttaqueSpecifique effectue l'attaque spécifique en fonction de la classe.
 func (c *Character) AttaqueSpecifique(m *Monstre) {
-	fmt.Printf("Attaque spécifique de la classe %s !\n", c.classe)
+	fmt.Printf("Attaque spécifique de la classe des %s !\n", c.classe)
 	switch c.classe {
-	case "Nain":
+	case "Nains":
 		// Utilisez l'attaque spécifique des nains
-		fmt.Println("Frappe Sismique !")
+		Defil("Frappe Sismique !\n")
 		m.curpv -= 15
 		if m.curpv <= 0 {
-			fmt.Println("Le monstre n'a plus de point de vie!")
+			Defil("Le monstre n'a plus de point de vie!\n")
 			return
 		}
-		fmt.Println("Il lui reste", m.curpv, "points de vie.")
-	case "Elfe":
+		DefilLeft("Il lui reste ", &M1, " points de vie.\n")
+	case "Elfes":
 		// Utilisez l'attaque spécifique des elfes
-		fmt.Println("Tir de Précision !")
+		Defil("Tir de Précision !\n")
 		m.curpv -= 15
 		if m.curpv <= 0 {
-			fmt.Println("Le monstre n'a plus de point de vie!")
+			Defil("Le monstre n'a plus de point de vie!\n")
 			return
 		}
-		fmt.Println("Il lui reste", m.curpv, "points de vie.")
-	case "Humain":
+		DefilLeft("Il lui reste ", &M1, " points de vie.\n")
+	case "Humains":
 		// Utilisez l'attaque spécifique des humains
-		fmt.Println("Stratégie Tactique !")
+		Defil("Stratégie Tactique !\n")
 		m.curpv -= 15
 		if m.curpv <= 0 {
-			fmt.Println("Le monstre n'a plus de point de vie!")
+			Defil("Le monstre n'a plus de point de vie!\n")
 			return
 		}
-		fmt.Println("Il lui reste", m.curpv, "points de vie.")
+		DefilLeft("Il lui reste ", &M1, " points de vie.\n")
 	default:
-		fmt.Println("Classe invalide, utilisez l'attaque basique.")
+		Defil("Classe invalide, utilisez l'attaque basique.\n")
 		c.AttaqueBasique(m)
 		if m.curpv <= 0 {
-			fmt.Println("Le monstre n'a plus de point de vie!")
+			Defil("Le monstre n'a plus de point de vie!\n")
 			return
 		}
 	}
@@ -110,8 +119,5 @@ func (c *Character) AttaqueSpecifique(m *Monstre) {
 
 func Esquive() bool {
 	esquive := rand.Intn(5)
-	if esquive < 2 {
-		return true
-	}
-	return false
+	return esquive < 2
 }
