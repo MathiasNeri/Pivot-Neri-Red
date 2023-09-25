@@ -2,6 +2,7 @@ package red
 
 var P1 Character
 var M1 Monstre
+var M2 Monstre
 var CoupdePoing Skill
 var BouledeFeu Skill
 

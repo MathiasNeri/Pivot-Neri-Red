@@ -31,6 +31,7 @@ func (c *Character) TPT(m *Monstre) {
 				Defil("1. Attaque basique\n")
 				DefilAS("2. Attaque spécifique des ", &P1)
 				fmt.Println("")
+				Defil("3. Ouvrir l'inventaire")
 				var choix string
 				fmt.Scan(&choix)
 				switch choix {
@@ -51,6 +52,17 @@ func (c *Character) TPT(m *Monstre) {
 							return
 						}
 					}
+				case "3":
+					if c.inventory == nil {
+						fmt.Println("Votre inventaire est vide ")
+						c.AttaqueBasique(m)
+						if m.curpv <= 0 {
+							Defil("Le monstre est mort !\n")
+							return
+						}
+					}
+					c.displayInventory()
+					fmt.Println("")
 
 				default:
 					Defil("Choix invalide, utilisez l'attaque basique.\n")

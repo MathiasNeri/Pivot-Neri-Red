@@ -37,29 +37,6 @@ func Marchand(c *Character) {
 
 		var choix string
 		fmt.Println("Choisissez un article :")
-		if PotionsDeSoinVendues < 1 {
-			fmt.Println("1 pour la Potion de Soin")
-		}
-		if PotionsDePoisonVendues < 1 {
-			fmt.Println("2 pour la Potion de Poison")
-		}
-		if LivreDeSortBDF < 1 {
-			fmt.Println("3 pour Livre de Sort : Boule de Feu")
-		}
-		if FourrureVendues < 1 {
-			fmt.Println("4. Fourrure de Loup")
-		}
-		if PeauTrollVendue < 1 {
-			fmt.Println("5. Peau de Troll")
-		}
-		if CuirSanglierVendue < 1 {
-			fmt.Println("6. Cuir de Sanglier")
-		}
-		if PlumeCorbeauVendue < 1 {
-			fmt.Println("7. Plume de Corbeau :")
-		}
-
-		fmt.Print(": ")
 		fmt.Scanln(&choix)
 
 		switch choix {

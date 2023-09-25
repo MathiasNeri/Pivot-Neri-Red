@@ -52,6 +52,9 @@ func Menu() {
 		case "10":
 			fmt.Println("Equipement")
 			menuEquipement(&P1)
+		case "11":
+			fmt.Println("tpt")
+			P1.TPT(&M2)
 
 		default:
 			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3/4/5/6/7/8/9/10)")
