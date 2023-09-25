@@ -91,29 +91,14 @@ func (c *Character) AttaqueSpecifique(m *Monstre) {
 		// Utilisez l'attaque spécifique des nains
 		Defil("Frappe Sismique !\n")
 		m.curpv -= 15
-		if m.curpv <= 0 {
-			Defil("Le monstre n'a plus de point de vie!\n")
-			return
-		}
-		DefilLeft("Il lui reste ", &M1, " points de vie.\n")
 	case "Elfes":
 		// Utilisez l'attaque spécifique des elfes
 		Defil("Tir de Précision !\n")
 		m.curpv -= 15
-		if m.curpv <= 0 {
-			Defil("Le monstre n'a plus de point de vie!\n")
-			return
-		}
-		DefilLeft("Il lui reste ", &M1, " points de vie.\n")
 	case "Humains":
 		// Utilisez l'attaque spécifique des humains
 		Defil("Stratégie Tactique !\n")
 		m.curpv -= 15
-		if m.curpv <= 0 {
-			Defil("Le monstre n'a plus de point de vie!\n")
-			return
-		}
-		DefilLeft("Il lui reste ", &M1, " points de vie.\n")
 	default:
 		Defil("Classe invalide, utilisez l'attaque basique.\n")
 		c.AttaqueBasique(m)

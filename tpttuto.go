@@ -20,7 +20,14 @@ func (c *Character) TPTtuto(m *Monstre) {
 			i++
 			fmt.Println("")
 			fmt.Println("Tour", i)
+		} else if i == 3 {
+			c.Attaque3(&M1)
+			i++
+			fmt.Println("")
+			fmt.Println("Tour", i)
+
 		}
+
 		if i%2 == 0 {
 			Defil("L'ennemi attaque !\n")
 			if i%3 == 0 {
@@ -84,5 +91,20 @@ func (c *Character) Attaque1(m *Monstre) {
 	default:
 		Defil("Touche Incorecte, Veuillez appuyer sur la touche 1 pour attaquer le Gobelin\n")
 		c.Attaque1(&M1)
+	}
+}
+
+func (c *Character) Attaque3(m *Monstre) {
+	var choix1 string
+	Defil("Appuyez sur la touche 2 de votre clavier pour lancer une attaque spécifique de classe")
+	fmt.Scanln(&choix1)
+	switch choix1 {
+	case "2":
+		Defil("Bien joué !")
+		c.AttaqueSpecifique(m)
+		DefilLeft("Il lui reste ", &M1, " Point de vie\n")
+	default:
+		Defil("Touche Incorecte, Veuillez appuyer sur la touche 2 pour attaquer le Gobelin\n")
+		c.Attaque3(&M1)
 	}
 }
