@@ -81,11 +81,6 @@ func (c *Character) TPT(m *Monstre) {
 func (c *Character) AttaqueBasique(m *Monstre) {
 	Defil("Attaque basique !\n")
 	m.curpv -= 5
-	if m.curpv <= 0 {
-		Defil("Le monstre n'a plus de point de vie!\n")
-		return
-	}
-	DefilLeft("Il lui reste ", &M1, " points de vie.\n")
 }
 
 // AttaqueSpecifique effectue l'attaque spécifique en fonction de la classe.

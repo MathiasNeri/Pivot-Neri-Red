@@ -10,23 +10,16 @@ func (c *Character) TPTtuto(m *Monstre) {
 	fmt.Println("")
 	Defil("Attaquons le !")
 	fmt.Println("")
-	Defil("Appuyez sur la touche 1 de votre clavier pour lancer une attaque basique")
+
 	for i := 1; i <= 20; i++ {
 		fmt.Println("")
 		fmt.Println("Tour", i)
 		fmt.Println("")
 		if i == 1 {
-			var choixT1 string
-			fmt.Scan(&choixT1)
-			switch choixT1 {
-			case "1":
-				Defil("Bien joué !")
-				c.AttaqueBasique(m)
-				DefilLeft("Il lui reste ", &M1, " Point de vie\n")
-			default:
-				Defil("Touche Incorecte, Veuillez appuyer sur la touche 1 pour attaquer le Gobelin\n")
-				return
-			}
+			c.Attaque1(&M1)
+			i++
+			fmt.Println("")
+			fmt.Println("Tour", i)
 		}
 		if i%2 == 0 {
 			Defil("L'ennemi attaque !\n")
@@ -76,5 +69,20 @@ func (c *Character) TPTtuto(m *Monstre) {
 				}
 			}
 		}
+	}
+}
+
+func (c *Character) Attaque1(m *Monstre) {
+	var choix1 string
+	Defil("Appuyez sur la touche 1 de votre clavier pour lancer une attaque basique")
+	fmt.Scanln(&choix1)
+	switch choix1 {
+	case "1":
+		Defil("Bien joué !")
+		c.AttaqueBasique(m)
+		DefilLeft("Il lui reste ", &M1, " Point de vie\n")
+	default:
+		Defil("Touche Incorecte, Veuillez appuyer sur la touche 1 pour attaquer le Gobelin\n")
+		c.Attaque1(&M1)
 	}
 }
