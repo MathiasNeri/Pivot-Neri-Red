@@ -35,7 +35,7 @@ func Menu() {
 			Marchand(&P1)
 		case "5":
 			fmt.Println("Gloup, Gloup, Gloup, Gloup,...")
-			P1.takePot()
+			P1.takePotHeal()
 		case "6":
 			fmt.Println("Apprendre la compétence Boule de Feu")
 			P1.spellBook()

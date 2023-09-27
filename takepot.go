@@ -5,62 +5,54 @@ import (
 	"time"
 )
 
-func (c *Character) takePot() {
-	fmt.Println("Quelle potion souhaitez-vous prendre ?")
-	fmt.Println("1. Potion de Soin")
-	fmt.Println("2. Potion de Poison")
-	var choix string
-	fmt.Print("Choisissez une option (1/2) : ")
-	fmt.Scanln(&choix)
+func (c *Character) takePotHeal() {
+	fmt.Println("Quelle potion de soin souhaitez-vous prendre ?")
+	if c.inventory["Potion de Soin"] > 0 {
+		c.inventory["Potion de Soin"]--
+		pointsDeSoins := 50
+		c.current_hp += pointsDeSoins
 
-	switch choix {
-	case "1":
-		if c.inventory["Potion de Soin"] > 0 {
-			c.inventory["Potion de Soin"]--
-			pointsDeSoins := 50
-			c.current_hp += pointsDeSoins
-
-			if c.current_hp > c.hp_max {
-				c.current_hp = c.hp_max
-			}
-
-			fmt.Printf("Vous avez utilisé une Potion de Soin et avez récupéré %d points de vie.\n", pointsDeSoins)
-			fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
-		} else {
-			fmt.Println("Vous n'avez pas de Potion de Soin dans l'inventaire.")
+		if c.current_hp > c.hp_max {
+			c.current_hp = c.hp_max
 		}
-	case "2":
-		if c.inventory["Potion de Poison"] > 0 {
-			c.inventory["Potion de Poison"]--
-			poisonDuration := 3 * time.Second
-			damageInterval := 1 * time.Second
-			damagePerTick := 10
 
-			fmt.Println("Vous avez été empoisonné !")
+		fmt.Printf("Vous avez utilisé une Potion de Soin et avez récupéré %d points de vie.\n", pointsDeSoins)
+		fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
+	} else {
+		fmt.Println("Vous n'avez pas de Potion de Soin dans l'inventaire.")
+	}
+}
 
-			ticker := time.NewTicker(damageInterval)
-			defer ticker.Stop()
+func (c *Character) takePotPoison(adversaire *Monstre) {
+	fmt.Println("Quelle potion de poison souhaitez-vous prendre ?")
+	if c.inventory["Potion de Poison"] > 0 {
+		c.inventory["Potion de Poison"]--
+		poisonDuration := 3 * time.Second
+		damageInterval := 1 * time.Second
+		damagePerTick := 10
 
-			damageTimer := time.NewTimer(poisonDuration)
-			defer damageTimer.Stop()
+		fmt.Println("Vous avez utilisé une Potion de Poison sur l'adversaire !")
 
-			for {
-				select {
-				case <-ticker.C:
-					c.current_hp -= damagePerTick
-					if c.current_hp < 0 {
-						c.current_hp = 0
-					}
-					fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
-				case <-damageTimer.C:
-					fmt.Println("L'effet de poison est terminé.")
-					return
+		ticker := time.NewTicker(damageInterval)
+		defer ticker.Stop()
+
+		damageTimer := time.NewTimer(poisonDuration)
+		defer damageTimer.Stop()
+
+		for {
+			select {
+			case <-ticker.C:
+				adversaire.curpv -= damagePerTick
+				if adversaire.curpv < 0 {
+					adversaire.curpv = 0
 				}
+				fmt.Printf("Points de vie de l'adversaire : %d / %d\n", adversaire.curpv, adversaire.pvmax)
+			case <-damageTimer.C:
+				fmt.Println("L'effet du poison sur l'adversaire est terminé.")
+				return
 			}
-		} else {
-			fmt.Println("Vous n'avez pas de Potion de Poison dans l'inventaire.")
 		}
-	default:
-		fmt.Println("Choix invalide. Veuillez choisir une option valide (1/2).")
+	} else {
+		fmt.Println("Vous n'avez pas de Potion de Poison dans l'inventaire.")
 	}
 }
