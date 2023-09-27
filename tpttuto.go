@@ -67,6 +67,7 @@ func (c *Character) TPTtuto(m *Monstre) {
 					DefilLeft("Il lui reste ", &M1, " PV\n")
 					if m.curpv <= 0 {
 						Defil("Le monstre est mort !\n")
+
 						return
 					}
 				}
@@ -91,7 +92,6 @@ func (c *Character) Attaque1(m *Monstre) {
 	case "1":
 		Defil("Bien joué !")
 		c.AttaqueBasique(m)
-		DefilLeft("Il lui reste ", &M1, " Point de vie\n")
 	default:
 		Defil("Touche Incorecte, Veuillez appuyer sur la touche 1 pour attaquer le Gobelin\n")
 		c.Attaque1(&M1)
@@ -106,7 +106,6 @@ func (c *Character) Attaque3(m *Monstre) {
 	case "2":
 		Defil("Bien joué !")
 		c.AttaqueSpecifique(m)
-		DefilLeft("Il lui reste ", &M1, " Point de vie\n")
 	default:
 		Defil("Touche Incorecte, Veuillez appuyer sur la touche 2 pour attaquer le Gobelin\n")
 		c.Attaque3(&M1)

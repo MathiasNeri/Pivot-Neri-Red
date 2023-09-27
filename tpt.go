@@ -80,7 +80,11 @@ func (c *Character) TPT(m *Monstre) {
 // AttaqueBasique effectue l'attaque basique commune à toutes les classes.
 func (c *Character) AttaqueBasique(m *Monstre) {
 	Defil("Attaque basique !\n")
-	m.curpv -= 5
+	dmg_attaquebasique := 5
+	m.curpv -= dmg_attaquebasique
+	fmt.Printf("Vous lui infligez %d", dmg_attaquebasique)
+	fmt.Println("")
+	DefilLeft("Il lui reste ", &M1, " Point de vie\n")
 }
 
 // AttaqueSpecifique effectue l'attaque spécifique en fonction de la classe.
@@ -91,17 +95,14 @@ func (c *Character) AttaqueSpecifique(m *Monstre) {
 		// Utilisez l'attaque spécifique des nains
 		Defil("Frappe Sismique !\n")
 		m.curpv -= 15
-
 	case "Elfes":
 		// Utilisez l'attaque spécifique des elfes
 		Defil("Tir de Précision !\n")
 		m.curpv -= 15
-
 	case "Humains":
 		// Utilisez l'attaque spécifique des humains
 		Defil("Stratégie Tactique !\n")
 		m.curpv -= 15
-
 	default:
 		Defil("Classe invalide, utilisez l'attaque basique.\n")
 		c.AttaqueBasique(m)
