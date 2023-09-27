@@ -1,5 +1,7 @@
 package red
 
+import "fmt"
+
 const (
 	chapeauAventurier     = "Chapeau de l'aventurier"
 	tuniqueAventurier     = "Tunique de l'aventurier"
@@ -32,5 +34,18 @@ func (char1 *Character) RemoveItem(item string) {
 		delete(char1.inventory, item)
 	} else {
 		// L'élément n'existe pas dans l'inventaire, vous pouvez gérer ce cas si nécessaire.
+	}
+}
+
+func UseItem(c *Character, itemName string, adversaire *Monstre) {
+	switch itemName {
+	case "Potion de Soin":
+		fmt.Println("Vous avez choisi d'utiliser une Potion de Soin.")
+		c.takePotHeal()
+	case "Potion de Poison":
+		fmt.Println("Vous avez choisi d'utiliser une Potion de Poison.")
+		c.takePotPoison(adversaire)
+	default:
+		fmt.Println("Cet objet ne peut pas être utilisé ici.")
 	}
 }

@@ -53,16 +53,7 @@ func (c *Character) TPT(m *Monstre) {
 						}
 					}
 				case "3":
-					if c.inventory == nil {
-						fmt.Println("Votre inventaire est vide ")
-						c.AttaqueBasique(m)
-						if m.curpv <= 0 {
-							Defil("Le monstre est mort !\n")
-							return
-						}
-					}
-					c.displayInventory()
-					fmt.Println("")
+					c.HandleInventory()
 
 				default:
 					Defil("Choix invalide, utilisez l'attaque basique.\n")

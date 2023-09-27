@@ -71,6 +71,8 @@ func (c *Character) TPTtuto(m *Monstre) {
 						return
 					}
 				}
+			case "3":
+				c.HandleInventory()
 
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
@@ -110,4 +112,51 @@ func (c *Character) Attaque3(m *Monstre) {
 		Defil("Touche Incorecte, Veuillez appuyer sur la touche 2 pour attaquer le Gobelin\n")
 		c.Attaque3(&M1)
 	}
+}
+
+func (c *Character) HandleInventory() {
+	fmt.Println("Inventaire:")
+	availableItems := []string{"Potion de Soin", "Potion de Poison"}
+
+	// Vérifiez si l'inventaire est vide
+	inventoryEmpty := true
+	for _, item := range availableItems {
+		quantity, exists := c.inventory[item]
+		if exists && quantity > 0 {
+			inventoryEmpty = false
+			fmt.Printf("%s %d disponible(s)\n", item, quantity)
+		}
+	}
+
+	if inventoryEmpty {
+		fmt.Println("Votre inventaire est vide.")
+		return
+	}
+
+	fmt.Print("Laquelle voulez-vous utiliser (entrez le numéro) ? ")
+	var choice int
+	fmt.Scanln(&choice)
+
+	switch choice {
+	case 1:
+		if c.inventory["Potion de Soin"] > 0 {
+			itemToUse := "Potion de Soin"
+			UseItem(c, itemToUse, &Monstre{})
+		} else {
+			fmt.Println("Vous n'avez pas de Potion de Soin dans l'inventaire.")
+		}
+	case 2:
+		if c.inventory["Potion de Poison"] > 0 {
+			itemToUse := "Potion de Poison"
+			UseItem(c, itemToUse, &Monstre{})
+		} else {
+			fmt.Println("Vous n'avez pas de Potion de Poison dans l'inventaire.")
+		}
+	default:
+		fmt.Println("Choix invalide.")
+	}
+
+	// Capturez l'entrée utilisateur pour vider le tampon du scanner
+	var dummy string
+	fmt.Scanln(&dummy)
 }
