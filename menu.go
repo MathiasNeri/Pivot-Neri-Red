@@ -99,8 +99,7 @@ func MenuBase() {
 			if PotionsDeSoinVendues == 1 {
 				Defil("La potion de vie a été ajoutée à votre inventaire !\nElle nous sera utile si nous croisons des monstre ")
 				Defil("\nUn Loup apparait soudainement devant le Marchand ! \nNous devons le combattre pour empecher qu'il ne fasses des ravages dans le village !")
-				M3.InitLoup()
-				P1.TPTLoup(&M3)
+				return
 			}
 		default:
 			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1/2/3)")

@@ -9,6 +9,9 @@ func main() {
 	//p.P1.TPTtuto(&p.M1)
 	p.IMarchand()
 	p.MenuBase()
+	p.M3.InitLoup()
+	p.P1.TPTLoup(&p.M3)
+	p.P1.Intro()
 }
 
 /*

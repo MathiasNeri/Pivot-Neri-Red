@@ -166,6 +166,7 @@ func (c *Character) TPTLoup(m *Monstre) {
 				c.AttaqueBasique(m)
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
+					c.inventory += ["Fourrure de Loup"]
 					return
 				}
 			}
