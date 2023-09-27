@@ -33,7 +33,7 @@ func (c *Character) TPT(m *Monstre) {
 				fmt.Println("")
 				Defil("3. Ouvrir l'inventaire")
 				var choix string
-				fmt.Scan(&choix)
+				fmt.Scanln(&choix)
 				switch choix {
 				case "1":
 					c.AttaqueBasique(m)
@@ -139,7 +139,7 @@ func (c *Character) TPTLoup(m *Monstre) {
 			DefilAS("2. Attaque spécifique des ", &P1)
 			fmt.Println("")
 			var choix string
-			fmt.Scan(&choix)
+			fmt.Scanln(&choix)
 			switch choix {
 			case "1":
 				c.AttaqueBasique(m)
@@ -166,7 +166,7 @@ func (c *Character) TPTLoup(m *Monstre) {
 				c.AttaqueBasique(m)
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
-					c.inventory += ["Fourrure de Loup"]
+					c.inventory["Fourrure de Loup"]++
 					return
 				}
 			}
