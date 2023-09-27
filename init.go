@@ -1,8 +1,11 @@
 package red
 
-var P1 Character
-var M1 Monstre
-var M2 Monstre
+import "math/rand"
+
+var P1 Character // moi
+var M1 Monstre   // gobelin d'entrainement
+var M2 Monstre   // Monstre d'essai
+var M3 Monstre   // Loup
 var CoupdePoing Skill
 var BouledeFeu Skill
 
@@ -26,6 +29,13 @@ func (m *Monstre) InitGobelin() {
 	m.pvmax = 40
 	m.curpv = 40
 	m.damagept = 5
+}
+
+func (m *Monstre) InitLoup() {
+	m.name = "Loup très méchant"
+	m.pvmax = 60
+	m.curpv = 40 + rand.Intn(10)
+	m.damagept = 7
 }
 
 func (char *equipement) InitEquipement(Tete string, Torse string, Bottes string) { // Équipement du personnage

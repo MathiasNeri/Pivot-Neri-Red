@@ -21,8 +21,10 @@ func (c *Character) TPTtuto(m *Monstre) {
 			fmt.Println("")
 			fmt.Println("Tour", i)
 		} else if i == 3 {
+			Defil("Vous avez une autre attaque que vous pouvez utiliser pour vaincre ce vilain garnement... Elle est plus puissante mais le monstre a des chances de l'esquiver\n")
 			c.Attaque3(&M1)
 			i++
+			Defil("Maintenant que vous connaissez vos attaque nous allons pouvoir l'éliminer !\n")
 			fmt.Println("")
 			fmt.Println("Tour", i)
 
@@ -32,13 +34,13 @@ func (c *Character) TPTtuto(m *Monstre) {
 			Defil("L'ennemi attaque !\n")
 			if i%3 == 0 {
 				Defil("L'ennemi envoie une attaque chargée !\n")
-				c.current_hp -= 10
-				Defil("Vous avez perdu 5 HP\n")
+				c.current_hp -= 4
+				Defil("Vous avez perdu 4 HP\n")
 				c.Dead()
 				continue
 			}
-			c.current_hp -= 5
-			Defil("Vous avez perdu 5 HP\n")
+			c.current_hp -= 2
+			Defil("Vous avez perdu 2 HP\n")
 			c.Dead()
 		} else {
 			Defil("On attaque !\n")
@@ -51,6 +53,7 @@ func (c *Character) TPTtuto(m *Monstre) {
 			switch choix {
 			case "1":
 				c.AttaqueBasique(m)
+				DefilLeft("Il lui reste ", &M1, " PV\n")
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
 					return
@@ -61,6 +64,7 @@ func (c *Character) TPTtuto(m *Monstre) {
 					continue
 				} else {
 					c.AttaqueSpecifique(m)
+					DefilLeft("Il lui reste ", &M1, " PV\n")
 					if m.curpv <= 0 {
 						Defil("Le monstre est mort !\n")
 						return

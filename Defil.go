@@ -50,3 +50,24 @@ func DefilIntro(s string, c *Character, s2 string) {
 		time.Sleep(30 * time.Millisecond)
 	}
 }
+
+func DefilSpeed(s string) {
+	for _, letter := range s {
+		fmt.Print(string(letter))
+		time.Sleep(8 * time.Millisecond)
+	}
+}
+
+func DefilDMG(s string, m *Monstre, s2 string) {
+	for _, letter := range s {
+		fmt.Print(string(letter))
+		time.Sleep(30 * time.Millisecond)
+	}
+
+	fmt.Print(m.damagept)
+
+	for _, letter := range s2 {
+		fmt.Print(string(letter))
+		time.Sleep(30 * time.Millisecond)
+	}
+}
