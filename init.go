@@ -6,6 +6,7 @@ var P1 Character // moi
 var M1 Monstre   // gobelin d'entrainement
 var M2 Monstre   // Monstre d'essai
 var M3 Monstre   // Loup
+var M4 Monstre   // Troll
 var CoupdePoing Skill
 var BouledeFeu Skill
 
@@ -28,14 +29,21 @@ func (m *Monstre) InitGobelin() {
 	m.name = "Gobelin d'entrainement"
 	m.pvmax = 40
 	m.curpv = 40
-	m.damagept = 5
+	m.damagept = 3
 }
 
 func (m *Monstre) InitLoup() {
 	m.name = "Loup très méchant"
 	m.pvmax = 60
 	m.curpv = 40 + rand.Intn(10)
-	m.damagept = 7
+	m.damagept = 4
+}
+
+func (m *Monstre) InitTroll() {
+	m.name = "Troll tout pas beau"
+	m.pvmax = 80
+	m.curpv = 50 + rand.Intn(29)
+	m.damagept = 2
 }
 
 func (char *equipement) InitEquipement(Tete string, Torse string, Bottes string) { // Équipement du personnage

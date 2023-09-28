@@ -160,6 +160,7 @@ func (c *Character) TPTLoup(m *Monstre) {
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
 					c.inventory["Fourrure de Loup"]++
+					Defil("\nVous avez récupéré la fourrure du loup et elle a été ajoutée à votre inventaire \n")
 					return
 				}
 			}
@@ -178,7 +179,7 @@ func (c *Character) TPTTroll(m *Monstre) {
 			Defil("L'ennemi attaque !\n")
 
 			c.current_hp -= m.damagept
-			DefilDMG("Vous avez perdu ", &M3, " HP\n")
+			DefilDMG("Vous avez perdu ", &M4, " HP\n")
 			c.Dead()
 		} else {
 			Defil("On attaque !\n")
@@ -192,7 +193,7 @@ func (c *Character) TPTTroll(m *Monstre) {
 			switch choix {
 			case "1":
 				c.AttaqueBasique(m)
-				DefilLeft("Il lui reste ", &M3, " PV\n")
+				DefilLeft("Il lui reste ", &M4, " PV\n")
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
 					return
@@ -203,7 +204,7 @@ func (c *Character) TPTTroll(m *Monstre) {
 					continue
 				} else {
 					c.AttaqueSpecifique(m)
-					DefilLeft("Il lui reste ", &M3, " PV\n")
+					DefilLeft("Il lui reste ", &M4, " PV\n")
 					if m.curpv <= 0 {
 						Defil("Le monstre est mort !\n")
 						return
@@ -218,6 +219,7 @@ func (c *Character) TPTTroll(m *Monstre) {
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
 					c.inventory["Peau de Troll"]++
+					Defil("\nVous avez récupéré la peau du Troll et elle a été ajoutée à votre inventaire \n")
 					return
 				}
 			}

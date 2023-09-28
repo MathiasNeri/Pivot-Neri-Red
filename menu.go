@@ -96,7 +96,7 @@ func MenuBase() {
 			fmt.Println("Bienvenue chez le marchand !")
 			Defil("\nLe Marchand a l'air de vendre des potions de soin ! Nous devrions en prendre pour nos prochains combats !")
 			Marchand(&P1)
-			if PotionsDeSoinVendues == 1 {
+			if PotionsDeSoinVendues > 0 {
 				Defil("La potion de vie a été ajoutée à votre inventaire !\nElle nous sera utile si nous croisons des monstre ")
 				Defil("\nUn Loup apparait soudainement devant le Marchand ! \nNous devons le combattre pour empecher qu'il ne fasses des ravages dans le village !")
 				return
@@ -134,8 +134,8 @@ func MenuBDF(c *Character) {
 		case "1":
 			Defil("\n\nAchetez le \"Livre des Sorts : Boule de Feu !\"")
 			Marchand(&P1)
-			for _, i := range c.skill {
-				if i == "Livre des Sorts : Boule de Feu" {
+			for i := range c.inventory {
+				if i == "Livre de Sort : Boule de Feu" {
 					Defil("\nLe Marchand vous indique une vieille tour dans laquelle vit un grand sorcier qui pourrait vous apporter des renseignements sur ce grimoire...\n")
 					return
 				}
