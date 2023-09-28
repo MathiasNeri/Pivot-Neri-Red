@@ -6,16 +6,15 @@ import (
 )
 
 func (c *Character) TPT(m *Monstre) {
-	Tours := 0
+	compteur_bdf := 0
 	if c.current_hp <= 0 {
 		Defil("Vous êtes mort !\n")
 		return
 	} else {
-		toursPasses := 0
 		for i := 1; i <= 20; i++ {
 			fmt.Println("Tour", i)
 			fmt.Println("")
-			if Tours%5 == 0 {
+			if compteur_bdf%5 == 0 {
 				// Check if the character has "Boule de Feu" skill
 				if c.HasSkill("Boule de Feu") {
 					fmt.Println("4. Utiliser Boule de Feu")
@@ -68,6 +67,7 @@ func (c *Character) TPT(m *Monstre) {
 						if c.HasSkill("Boule de Feu") {
 							// Call a function to use the skill here
 							c.UseBouleDeFeu(m)
+							compteur_bdf = 0
 						} else {
 							fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
 						}
@@ -81,9 +81,8 @@ func (c *Character) TPT(m *Monstre) {
 						}
 					}
 				}
-				toursPasses++
 			}
-			Tours++
+			compteur_bdf++
 		}
 	}
 }
@@ -93,7 +92,7 @@ func (c *Character) UseBouleDeFeu(m *Monstre) {
 	// You can deduct the required resources and apply the skill's effects
 	// Example:
 	fmt.Println("Vous utilisez Boule de Feu contre le monstre!")
-	dmg_bouleDeFeu := 20
+	dmg_bouleDeFeu := 30
 	m.curpv -= dmg_bouleDeFeu
 	fmt.Printf("Vous lui infligez %d de dégâts.\n", dmg_bouleDeFeu)
 }
@@ -150,9 +149,7 @@ func Esquive() bool {
 }
 
 func (c *Character) TPTLoup(m *Monstre) {
-	P1.skillinit()
 	compteur_bdf := 0
-
 	for i := 1; i <= 20; i++ {
 		fmt.Println("")
 		fmt.Println("Tour", i)
@@ -171,7 +168,7 @@ func (c *Character) TPTLoup(m *Monstre) {
 			DefilAS("2. Attaque spécifique des ", &P1)
 			fmt.Println("")
 			Defil("3. Ouvrir l'inventaire\n")
-			Defil("4. Uttiliser BDF")
+			Defil("4. Utiliser BDF")
 			var choix string
 			fmt.Scan(&choix)
 			switch choix {
@@ -199,7 +196,14 @@ func (c *Character) TPTLoup(m *Monstre) {
 			case "3":
 				fmt.Println("Ouvrir l'Inventaire :")
 				c.HandleInventory()
-
+			case "4":
+				if c.HasSkill("Boule de Feu") {
+					// Call a function to use the skill here
+					c.UseBouleDeFeu(m)
+					compteur_bdf = 0
+				} else {
+					fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
+				}
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
 				c.AttaqueBasique(m)
@@ -228,6 +232,7 @@ func (c *Character) TPTTroll(m *Monstre) {
 			c.current_hp -= m.damagept
 			DefilDMG("Vous avez perdu ", &M4, " HP\n")
 			c.Dead()
+			continue
 		} else {
 			Defil("On attaque !\n")
 			Defil("\nChoisissez votre attaque : \n")
@@ -258,15 +263,13 @@ func (c *Character) TPTTroll(m *Monstre) {
 					}
 				}
 			case "3":
+				fmt.Println("Ouvrir l'Inventaire :")
+				c.HandleInventory()
+			case "4":
 				if c.HasSkill("Boule de Feu") {
-					if compteur_bdf >= 5 {
-						c.UseBouleDeFeu(m)
-						compteur_bdf = 0
-					} else {
-						fmt.Println("Vous ne Pouvez pas uttiliser BDF.")
-
-					}
-
+					// Call a function to use the skill here
+					c.UseBouleDeFeu(m)
+					compteur_bdf = 0
 				} else {
 					fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
 				}
@@ -283,6 +286,69 @@ func (c *Character) TPTTroll(m *Monstre) {
 			}
 			compteur_bdf += 1
 		}
+	}
+}
 
+func (c *Character) TPTDragon(m *Monstre) {
+	compteur_bdf := 0
+	for i := 1; i <= 30; i++ {
+		fmt.Println("")
+		fmt.Println("Tour", i)
+		fmt.Println("")
+
+		if i%2 == 0 {
+			Defil("L'ennemi attaque !\n")
+
+			c.current_hp -= m.damagept
+			DefilDMG("Vous avez perdu ", &M5, " HP\n")
+			c.Dead()
+			continue
+		} else {
+			Defil("On attaque !\n")
+			Defil("\nChoisissez votre attaque : \n")
+			Defil("1. Attaque basique\n")
+			DefilAS("2. Attaque spécifique des ", &P1)
+			fmt.Println("")
+			Defil("3. Ouvrir l'inventaire")
+			var choix string
+			fmt.Scanln(&choix)
+			switch choix {
+			case "1":
+				c.AttaqueBasique(m)
+				DefilLeft("Il lui reste ", &M5, " PV\n")
+				if m.curpv <= 0 {
+					return
+				}
+			case "2":
+				if Esquive() {
+					Defil("Le monstre a esquivé l'attaque !\n")
+					continue
+				} else {
+					c.AttaqueSpecifique(m)
+					DefilLeft("Il lui reste ", &M5, " PV\n")
+					if m.curpv <= 0 {
+						return
+					}
+				}
+			case "3":
+				fmt.Println("Ouvrir l'Inventaire :")
+				c.HandleInventory()
+			case "4":
+				if c.HasSkill("Boule de Feu") {
+					c.UseBouleDeFeu(m)
+					compteur_bdf = 0
+				} else {
+					fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
+				}
+
+			default:
+				Defil("Choix invalide, utilisez l'attaque basique.\n")
+				c.AttaqueBasique(m)
+				if m.curpv <= 0 {
+					return
+				}
+			}
+			compteur_bdf += 1
+		}
 	}
 }

@@ -7,6 +7,7 @@ var M1 Monstre   // gobelin d'entrainement
 var M2 Monstre   // Monstre d'essai
 var M3 Monstre   // Loup
 var M4 Monstre   // Troll
+var M5 Monstre   // Dragon
 var CoupdePoing Skill
 var BouledeFeu Skill
 
@@ -44,6 +45,13 @@ func (m *Monstre) InitTroll() {
 	m.pvmax = 80
 	m.curpv = 50 + rand.Intn(29)
 	m.damagept = 2
+}
+
+func (m *Monstre) InitDragon() {
+	m.name = "Dragon en Origami"
+	m.pvmax = 120
+	m.curpv = 120
+	m.damagept = 10
 }
 
 func (char *equipement) InitEquipement(Tete string, Torse string, Bottes string) { // Équipement du personnage

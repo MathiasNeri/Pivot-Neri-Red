@@ -133,3 +133,105 @@ func Marchand(c *Character) {
 		fmt.Println("Le marchand n'a plus d'articles à vendre pour le moment.")
 	}
 }
+
+func Marchand1(c *Character) {
+	if PotionsDeSoinVendues < 1 {
+		fmt.Println("Articles disponibles chez le marchand :")
+		if PotionsDeSoinVendues < 1 {
+			fmt.Println("1. Potion de Soin : gratuit")
+		}
+
+		var choix string
+		fmt.Println("Choisissez un article :")
+		fmt.Scanln(&choix)
+
+		switch choix {
+		case "1":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
+			if PotionsDeSoinVendues < 1 {
+				c.inventory["Potion de Soin"]++
+				stock++
+				PotionsDeSoinVendues++
+				fmt.Println("Vous avez récupérer une Potion de Soin gratuitement et elle a été ajoutée à votre inventaire.")
+			} else {
+				fmt.Println("Le marchand n'a plus de Potion de Soin à vendre.")
+				fmt.Println("\nRevenez plus tard !")
+
+			}
+
+		default:
+			fmt.Println("Article invalide. Veuillez choisir un article valide.")
+		}
+	}
+}
+
+func Marchand2(c *Character) {
+	if PotionsDeSoinVendues < 1 || PotionsDePoisonVendues < 1 || LivreDeSortBDF < 1 {
+		fmt.Println("Articles disponibles chez le marchand :")
+		if PotionsDeSoinVendues < 1 {
+			fmt.Println("1. Potion de Soin : 3 pièces d'or")
+		}
+		if PotionsDePoisonVendues < 1 {
+			fmt.Println("2. Potion de Poison : 6 pièces d'or")
+		}
+		if LivreDeSortBDF < 1 {
+			fmt.Println("3. Livre de Sort : Boule de Feu : 25 pièces d'or")
+		}
+
+		var choix string
+		fmt.Println("Choisissez un article :")
+		fmt.Scanln(&choix)
+
+		switch choix {
+		case "1":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
+			if PotionsDeSoinVendues < 1 {
+				c.inventory["Potion de Soin"]++
+				stock++
+				PotionsDeSoinVendues++
+				c.money -= 3
+				fmt.Println("Vous avez acheté une Potion de Soin pour 3 pièces d'or et elle a été ajoutée à votre inventaire.")
+			} else {
+				fmt.Println("Le marchand n'a plus de Potion de Soin à vendre.")
+			}
+		case "2":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
+			if PotionsDePoisonVendues < 1 {
+				c.inventory["Potion de Poison"]++
+				stock++
+				PotionsDePoisonVendues++
+				c.money -= 6
+				fmt.Println("Vous avez acheté une Potion de Poison pour 6 pièces d'or et elle a été ajoutée à votre inventaire.")
+			} else {
+				fmt.Println("Le marchand n'a plus de Potion de Poison à vendre.")
+			}
+		case "3":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
+			if LivreDeSortBDF < 1 {
+				c.inventory["Livre de Sort : Boule de Feu"]++
+				stock++
+				LivreDeSortBDF++
+				c.money -= 25
+				fmt.Println("Vous avez acheté Livre de Sort : Boule de Feu pour 25 pièces d'or et la compétence a été ajoutée à votre inventaire.")
+			} else if LivreDeSortBDF >= 1 {
+				fmt.Println("Le marchand n'a plus de Potion de Livre de Sort :Boule de Feu à vendre.")
+			}
+		default:
+			fmt.Println("Article invalide. Veuillez choisir un article valide.")
+		}
+	} else {
+		fmt.Println("Le marchand n'a plus d'articles à vendre pour le moment.")
+	}
+}
