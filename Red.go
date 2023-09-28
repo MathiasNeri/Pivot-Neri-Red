@@ -155,3 +155,9 @@ func (char1 *Character) Update_Pv_Max() {
 		char1.hp_max += 15
 	}
 }
+
+func (c *Character) skillinit() {
+	if !c.HasSkill("Boule de Feu") {
+		c.skill = append(c.skill, "Boule de Feu")
+	}
+}
