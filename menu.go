@@ -106,3 +106,43 @@ func MenuBase() {
 		}
 	}
 }
+
+func MenuBDF(c *Character) {
+	var choix string
+
+	for choix != "0" {
+		fmt.Println("----------------------------------------------")
+		fmt.Println("Menu :")
+		DefilSpeed("\n0. Quitter \n1. Marchand\n")
+		fmt.Println("----------------------------------------------")
+		fmt.Println("Choisissez une option (0/1/2/3) : ")
+		fmt.Println("----------------------------------------------")
+		fmt.Scanln(&choix)
+
+		switch choix {
+		case "0":
+			Defil("\nEtes vous sure de vouloir quitter le jeu ?\n1. NON\n0. OUI\n")
+			var sure string
+			fmt.Scanln(&sure)
+			switch sure {
+			case "1":
+				MenuBase()
+			case "0":
+				fmt.Println("Merci d'avoir joué, à bientôt !")
+				os.Exit(0)
+			}
+		case "1":
+			Defil("\n\nAchetez le \"Livre des Sorts : Boule de Feu !\"")
+			Marchand(&P1)
+			for _, i := range c.skill {
+				if i == "Livre des Sorts : Boule de Feu" {
+					Defil("\nLe Marchand vous indique une vieille tour dans laquelle vit un grand sorcier qui pourrait vous apporter des renseignements sur ce grimoire...\n")
+					return
+				}
+			}
+
+		default:
+			fmt.Println("Choix invalide. Veuillez choisir une option valide (0/1)")
+		}
+	}
+}

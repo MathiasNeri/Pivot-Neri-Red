@@ -54,7 +54,6 @@ func (c *Character) TPT(m *Monstre) {
 					}
 				case "3":
 					c.HandleInventory()
-
 				default:
 					Defil("Choix invalide, utilisez l'attaque basique.\n")
 					c.AttaqueBasique(m)
@@ -129,6 +128,7 @@ func (c *Character) TPTLoup(m *Monstre) {
 			Defil("1. Attaque basique\n")
 			DefilAS("2. Attaque spécifique des ", &P1)
 			fmt.Println("")
+			Defil("3. Ouvrir l'inventaire")
 			var choix string
 			fmt.Scanln(&choix)
 			switch choix {
@@ -151,6 +151,8 @@ func (c *Character) TPTLoup(m *Monstre) {
 						return
 					}
 				}
+			case "3":
+				c.HandleInventory()
 
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
@@ -158,6 +160,64 @@ func (c *Character) TPTLoup(m *Monstre) {
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
 					c.inventory["Fourrure de Loup"]++
+					return
+				}
+			}
+		}
+	}
+}
+
+func (c *Character) TPTTroll(m *Monstre) {
+
+	for i := 1; i <= 20; i++ {
+		fmt.Println("")
+		fmt.Println("Tour", i)
+		fmt.Println("")
+
+		if i%2 == 0 {
+			Defil("L'ennemi attaque !\n")
+
+			c.current_hp -= m.damagept
+			DefilDMG("Vous avez perdu ", &M3, " HP\n")
+			c.Dead()
+		} else {
+			Defil("On attaque !\n")
+			Defil("\nChoisissez votre attaque : \n")
+			Defil("1. Attaque basique\n")
+			DefilAS("2. Attaque spécifique des ", &P1)
+			fmt.Println("")
+			Defil("3. Ouvrir l'inventaire")
+			var choix string
+			fmt.Scanln(&choix)
+			switch choix {
+			case "1":
+				c.AttaqueBasique(m)
+				DefilLeft("Il lui reste ", &M3, " PV\n")
+				if m.curpv <= 0 {
+					Defil("Le monstre est mort !\n")
+					return
+				}
+			case "2":
+				if Esquive() {
+					Defil("Le monstre a esquivé l'attaque !\n")
+					continue
+				} else {
+					c.AttaqueSpecifique(m)
+					DefilLeft("Il lui reste ", &M3, " PV\n")
+					if m.curpv <= 0 {
+						Defil("Le monstre est mort !\n")
+						return
+					}
+				}
+			case "3":
+				c.HandleInventory()
+
+			default:
+				Defil("Choix invalide, utilisez l'attaque basique.\n")
+				c.AttaqueBasique(m)
+				if m.curpv <= 0 {
+					Defil("Le monstre est mort !\n")
+					c.inventory["Peau de Troll"]++
 					return
 				}
 			}
