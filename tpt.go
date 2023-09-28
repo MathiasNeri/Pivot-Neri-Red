@@ -180,11 +180,21 @@ func (c *Character) AttaqueSpecifique(m *Monstre) {
 	case "Elfes":
 		// Utilisez l'attaque spécifique des elfes
 		Defil("Tir de Précision !\n")
-		m.curpv -= 15
+		dmg_attaquespecifique := 15
+		m.curpv -= dmg_attaquespecifique
+		fmt.Printf("Vous lui infligez %d", dmg_attaquespecifique)
+		fmt.Println("")
+		DefilLeft("Il lui reste ", m, " Point de vie\n")
+		c.mana -= 10
 	case "Humains":
 		// Utilisez l'attaque spécifique des humains
 		Defil("Stratégie Tactique !\n")
-		m.curpv -= 15
+		dmg_attaquespecifique := 15
+		m.curpv -= dmg_attaquespecifique
+		fmt.Printf("Vous lui infligez %d", dmg_attaquespecifique)
+		fmt.Println("")
+		DefilLeft("Il lui reste ", m, " Point de vie\n")
+		c.mana -= 10
 	default:
 		Defil("Classe invalide, utilisez l'attaque basique.\n")
 		c.AttaqueBasique(m)
