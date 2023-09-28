@@ -5,6 +5,12 @@ import (
 	"math/rand"
 )
 
+func (c *Character) LevelUp() {
+	c.lvl++
+	c.hp_max += 10
+	c.current_hp = c.hp_max
+}
+
 func (c *Character) TPT(m *Monstre) {
 	compteur_bdf := 0
 	if c.current_hp <= 0 {
@@ -25,12 +31,12 @@ func (c *Character) TPT(m *Monstre) {
 					if i%3 == 0 {
 						Defil("L'ennemi envoie une attaque chargée !\n")
 						c.current_hp -= 10
-						Defil("Vous avez perdu 5 HP\n")
+						Defil("Vous avez perdu 5 PV\n")
 						c.Dead()
 						continue
 					}
 					c.current_hp -= 5
-					Defil("Vous avez perdu 5 HP\n")
+					Defil("Vous avez perdu 5 PV\n")
 					c.Dead()
 				} else {
 					Defil("On attaque !\n")
@@ -46,7 +52,17 @@ func (c *Character) TPT(m *Monstre) {
 						c.AttaqueBasique(m)
 						if m.curpv <= 0 {
 							Defil("Le monstre est mort !\n")
+							Defil("Vous avez gagné 2500 XP ! \n")
+							c.EXP += 2500
+							if c.EXP >= 5000 {
+								Defil("Vous passez au supérieur ! \n")
+								c.LevelUp()
+								c.EXP -= 5000
+								return
+
+							}
 							return
+
 						}
 					case "2":
 						if Esquive() {
@@ -56,6 +72,15 @@ func (c *Character) TPT(m *Monstre) {
 							c.AttaqueSpecifique(m)
 							if m.curpv <= 0 {
 								Defil("Le monstre est mort !\n")
+								Defil("Vous avez gagné 2500 XP ! \n")
+								c.EXP += 2500
+								if c.EXP >= 5000 {
+									Defil("Vous passez au supérieur ! \n")
+									c.LevelUp()
+									c.EXP -= 5000
+									return
+
+								}
 								return
 							}
 						}
@@ -68,6 +93,19 @@ func (c *Character) TPT(m *Monstre) {
 							// Call a function to use the skill here
 							c.UseBouleDeFeu(m)
 							compteur_bdf = 0
+							if m.curpv <= 0 {
+								Defil("Le monstre est mort !\n")
+								Defil("Vous avez gagné 2500 XP ! \n")
+								c.EXP += 2500
+								if c.EXP >= 5000 {
+									Defil("Vous passez au supérieur ! \n")
+									c.LevelUp()
+									c.EXP -= 5000
+									return
+
+								}
+								return
+							}
 						} else {
 							fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
 						}
@@ -77,7 +115,16 @@ func (c *Character) TPT(m *Monstre) {
 						c.AttaqueBasique(m)
 						if m.curpv <= 0 {
 							Defil("Le monstre est mort !\n")
+							c.EXP += 2500
+							if c.EXP >= 5000 {
+								Defil("Vous passez au supérieur ! \n")
+								c.LevelUp()
+								c.EXP -= 5000
+								return
+
+							}
 							return
+
 						}
 					}
 				}
@@ -113,7 +160,7 @@ func (c *Character) AttaqueBasique(m *Monstre) {
 	m.curpv -= dmg_attaquebasique
 	fmt.Printf("Vous lui infligez %d", dmg_attaquebasique)
 	fmt.Println("")
-	DefilLeft("Il lui reste ", &Monstre{}, " Point de vie\n")
+	DefilLeft("Il lui reste ", m, " Point de vie\n")
 }
 
 // AttaqueSpecifique effectue l'attaque spécifique en fonction de la classe.
@@ -123,15 +170,27 @@ func (c *Character) AttaqueSpecifique(m *Monstre) {
 	case "Nains":
 		// Utilisez l'attaque spécifique des nains
 		Defil("Frappe Sismique !\n")
-		m.curpv -= 15
+		dmg_attaquespecifique := 15
+		m.curpv -= dmg_attaquespecifique
+		fmt.Printf("Vous lui infligez %d", dmg_attaquespecifique)
+		fmt.Println("")
+		DefilLeft("Il lui reste ", m, " Point de vie\n")
 	case "Elfes":
 		// Utilisez l'attaque spécifique des elfes
 		Defil("Tir de Précision !\n")
-		m.curpv -= 15
+		dmg_attaquespecifique := 15
+		m.curpv -= dmg_attaquespecifique
+		fmt.Printf("Vous lui infligez %d", dmg_attaquespecifique)
+		fmt.Println("")
+		DefilLeft("Il lui reste ", m, " Point de vie\n")
 	case "Humains":
 		// Utilisez l'attaque spécifique des humains
 		Defil("Stratégie Tactique !\n")
-		m.curpv -= 15
+		dmg_attaquespecifique := 15
+		m.curpv -= dmg_attaquespecifique
+		fmt.Printf("Vous lui infligez %d", dmg_attaquespecifique)
+		fmt.Println("")
+		DefilLeft("Il lui reste ", m, " Point de vie\n")
 	default:
 		Defil("Classe invalide, utilisez l'attaque basique.\n")
 		c.AttaqueBasique(m)
@@ -159,7 +218,7 @@ func (c *Character) TPTLoup(m *Monstre) {
 			Defil("L'ennemi attaque !\n")
 
 			c.current_hp -= m.damagept
-			DefilDMG("Vous avez perdu ", &M3, " HP\n")
+			DefilDMG("Vous avez perdu ", &M3, " PV\n")
 			c.Dead()
 		} else {
 			Defil("On attaque !\n")
@@ -178,7 +237,16 @@ func (c *Character) TPTLoup(m *Monstre) {
 				DefilLeft("Il lui reste ", &M3, " PV\n")
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
+					c.EXP += 2500
+					if c.EXP >= 5000 {
+						Defil("Vous passez au supérieur ! \n")
+						c.LevelUp()
+						c.EXP -= 5000
+						return
+
+					}
 					return
+
 				}
 			case "2":
 				if Esquive() {
@@ -190,6 +258,14 @@ func (c *Character) TPTLoup(m *Monstre) {
 					DefilLeft("Il lui reste ", &M3, " PV\n")
 					if m.curpv <= 0 {
 						Defil("Le monstre est mort !\n")
+						c.EXP += 2500
+						if c.EXP >= 5000 {
+							Defil("Vous passez au supérieur ! \n")
+							c.LevelUp()
+							c.EXP -= 5000
+							return
+
+						}
 						return
 					}
 				}
@@ -201,9 +277,23 @@ func (c *Character) TPTLoup(m *Monstre) {
 					// Call a function to use the skill here
 					c.UseBouleDeFeu(m)
 					compteur_bdf = 0
+					DefilLeft("Il lui reste ", &M3, " PV\n")
+					if m.curpv <= 0 {
+						Defil("Le monstre est mort !\n")
+						c.EXP += 2500
+						if c.EXP >= 5000 {
+							Defil("Vous passez au supérieur ! \n")
+							c.LevelUp()
+							c.EXP -= 5000
+							return
+
+						}
+						return
+					}
 				} else {
 					fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
 				}
+
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
 				c.AttaqueBasique(m)
@@ -212,7 +302,16 @@ func (c *Character) TPTLoup(m *Monstre) {
 					Defil("Le monstre est mort !\n")
 					c.inventory["Fourrure de Loup"]++
 					Defil("\nVous avez récupéré la fourrure du loup et elle a été ajoutée à votre inventaire \n")
+					c.EXP += 2500
+					if c.EXP >= 5000 {
+						Defil("Vous passez au supérieur ! \n")
+						c.LevelUp()
+						c.EXP -= 5000
+						return
+
+					}
 					return
+
 				}
 			}
 		}
@@ -230,7 +329,7 @@ func (c *Character) TPTTroll(m *Monstre) {
 			Defil("L'ennemi attaque !\n")
 
 			c.current_hp -= m.damagept
-			DefilDMG("Vous avez perdu ", &M4, " HP\n")
+			DefilDMG("Vous avez perdu ", &M4, " PV\n")
 			c.Dead()
 			continue
 		} else {
@@ -248,7 +347,15 @@ func (c *Character) TPTTroll(m *Monstre) {
 				DefilLeft("Il lui reste ", &M4, " PV\n")
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
+					c.EXP += 3500
+					if c.EXP >= 5000 {
+						Defil("Vous passez au niveau 2 ! \n")
+						c.LevelUp()
+						c.EXP -= 5000
+						return
+					}
 					return
+
 				}
 			case "2":
 				if Esquive() {
@@ -259,7 +366,15 @@ func (c *Character) TPTTroll(m *Monstre) {
 					DefilLeft("Il lui reste ", &M4, " PV\n")
 					if m.curpv <= 0 {
 						Defil("Le monstre est mort !\n")
+						c.EXP += 3500
+						if c.EXP >= 5000 {
+							Defil("Vous passez au niveau 2 ! \n")
+							c.LevelUp()
+							c.EXP -= 5000
+							return
+						}
 						return
+
 					}
 				}
 			case "3":
@@ -270,6 +385,17 @@ func (c *Character) TPTTroll(m *Monstre) {
 					// Call a function to use the skill here
 					c.UseBouleDeFeu(m)
 					compteur_bdf = 0
+					if m.curpv <= 0 {
+						Defil("Le monstre est mort !\n")
+						c.EXP += 3500
+						if c.EXP >= 5000 {
+							Defil("Vous passez au niveau 2 ! \n")
+							c.LevelUp()
+							c.EXP -= 5000
+							return
+						}
+						return
+					}
 				} else {
 					fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
 				}
@@ -281,7 +407,15 @@ func (c *Character) TPTTroll(m *Monstre) {
 					Defil("Le monstre est mort !\n")
 					c.inventory["Peau de Troll"]++
 					Defil("\nVous avez récupéré la peau du Troll et elle a été ajoutée à votre inventaire \n")
+					c.EXP += 3500
+					if c.EXP >= 5000 {
+						Defil("Vous passez au niveau 2 ! \n")
+						c.LevelUp()
+						c.EXP -= 5000
+						return
+					}
 					return
+
 				}
 			}
 			compteur_bdf += 1
@@ -300,7 +434,7 @@ func (c *Character) TPTDragon(m *Monstre) {
 			Defil("L'ennemi attaque !\n")
 
 			c.current_hp -= m.damagept
-			DefilDMG("Vous avez perdu ", &M5, " HP\n")
+			DefilDMG("Vous avez perdu ", &M5, " PV\n")
 			c.Dead()
 			continue
 		} else {
@@ -317,6 +451,14 @@ func (c *Character) TPTDragon(m *Monstre) {
 				c.AttaqueBasique(m)
 				DefilLeft("Il lui reste ", &M5, " PV\n")
 				if m.curpv <= 0 {
+					Defil("Le monstre est mort !\n")
+					c.EXP += 4500
+					if c.EXP >= 5000 {
+						Defil("Vous passez au niveau 2 ! \n")
+						c.LevelUp()
+						c.EXP -= 5000
+						return
+					}
 					return
 				}
 			case "2":
@@ -327,8 +469,17 @@ func (c *Character) TPTDragon(m *Monstre) {
 					c.AttaqueSpecifique(m)
 					DefilLeft("Il lui reste ", &M5, " PV\n")
 					if m.curpv <= 0 {
+						Defil("Le monstre est mort !\n")
+						c.EXP += 4500
+						if c.EXP >= 5000 {
+							Defil("Vous passez au niveau 2 ! \n")
+							c.LevelUp()
+							c.EXP -= 5000
+							return
+						}
 						return
 					}
+
 				}
 			case "3":
 				fmt.Println("Ouvrir l'Inventaire :")
@@ -337,6 +488,16 @@ func (c *Character) TPTDragon(m *Monstre) {
 				if c.HasSkill("Boule de Feu") {
 					c.UseBouleDeFeu(m)
 					compteur_bdf = 0
+					Defil("Le monstre est mort !\n")
+					c.EXP += 4500
+					if c.EXP >= 5000 {
+						Defil("Vous passez au niveau 2 ! \n")
+						c.LevelUp()
+						c.EXP -= 5000
+						return
+					}
+					return
+
 				} else {
 					fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
 				}
@@ -345,6 +506,14 @@ func (c *Character) TPTDragon(m *Monstre) {
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
 				c.AttaqueBasique(m)
 				if m.curpv <= 0 {
+					Defil("Le monstre est mort !\n")
+					c.EXP += 4500
+					if c.EXP >= 5000 {
+						Defil("Vous passez au niveau 2 ! \n")
+						c.LevelUp()
+						c.EXP -= 5000
+						return
+					}
 					return
 				}
 			}

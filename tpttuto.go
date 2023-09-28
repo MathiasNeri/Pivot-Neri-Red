@@ -56,6 +56,8 @@ func (c *Character) TPTtuto(m *Monstre) {
 				DefilLeft("Il lui reste ", &M1, " PV\n")
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
+					Defil("Vous avez gagné 2500 XP ! Vous montez de niveau tous les 5000 point d'EXP, battez plus de créatures pour grimper en niveaux\n")
+					c.EXP += 2500
 					return
 				}
 			case "2":
@@ -67,6 +69,8 @@ func (c *Character) TPTtuto(m *Monstre) {
 					DefilLeft("Il lui reste ", &M1, " PV\n")
 					if m.curpv <= 0 {
 						Defil("Le monstre est mort !\n")
+						Defil("Vous avez gagné 2500 XP ! Vous montez de niveau tous les 5000 point d'EXP, battez plus de créatures pour grimper en niveaux\n")
+						c.EXP += 2500
 
 						return
 					}
@@ -79,6 +83,8 @@ func (c *Character) TPTtuto(m *Monstre) {
 				c.AttaqueBasique(m)
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
+					Defil("Vous avez gagné 2500 XP ! Vous montez de niveau tous les 5000 point d'EXP, battez plus de créatures pour grimper en niveaux\n")
+					c.EXP += 2500
 					return
 				}
 			}
