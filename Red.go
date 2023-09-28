@@ -141,3 +141,17 @@ func (c *Character) skillinit() {
 		c.skill = append(c.skill, "Boule de Feu")
 	}
 }
+
+func (c *Character) Mana10() bool {
+	if c.mana-10 < 0 {
+		return false
+	}
+	return true
+}
+
+func (c *Character) Mana20() bool {
+	if c.mana-20 < 0 {
+		return false
+	}
+	return true
+}

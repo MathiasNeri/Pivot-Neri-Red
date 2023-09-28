@@ -122,7 +122,7 @@ func (c *Character) Attaque3(m *Monstre) {
 
 func (c *Character) HandleInventory() {
 	fmt.Println("Inventaire:")
-	availableItems := []string{"Potion de Soin", "Potion de Poison"}
+	availableItems := []string{"Potion de Soin", "Potion de Poison", "Potion de Mana"}
 
 	// Vérifiez si l'inventaire est vide
 	inventoryEmpty := true
@@ -159,6 +159,13 @@ func (c *Character) HandleInventory() {
 			UseItem(c, itemToUse, &Monstre{})
 		} else {
 			fmt.Println("Vous n'avez pas de Potion de Poison dans l'inventaire.")
+		}
+	case 3:
+		if c.inventory["Potion de Mana"] > 0 {
+			itemToUse := "Potion de Mana"
+			UseItem(c, itemToUse, &Monstre{})
+		} else {
+			fmt.Println("Vous n'avez pas de Potion de Mana dans l'inventaire.")
 		}
 	default:
 		fmt.Println("Choix invalide.")

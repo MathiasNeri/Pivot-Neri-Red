@@ -3,9 +3,9 @@ package red
 import "fmt"
 
 func (c *Character) displayInfo() {
-	fmt.Printf("\nNickname: %s\nClass: %s\nLevel: %d\nHp_Max : %d\nCurrent_Hp : %d\nMoney : %d\nSkill : %s\n",
+	fmt.Printf("\nNickname: %s\nClass: %s\nLevel: %d\nHp_Max : %d\nCurrent_Hp : %d\nMoney : %d\nMana : %d\nSkill : %s\n",
 		c.nickname, c.classe, c.lvl,
-		c.hp_max, c.current_hp, c.money, c.skill)
+		c.hp_max, c.current_hp, c.money, c.mana, c.skill)
 }
 
 func (c *Character) displayInventory() {

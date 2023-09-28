@@ -56,3 +56,20 @@ func (c *Character) takePotPoison(adversaire *Monstre) {
 		fmt.Println("Vous n'avez pas de Potion de Poison dans l'inventaire.")
 	}
 }
+
+func (c *Character) takePotMana() {
+	if c.inventory["Potion de Mana"] > 0 {
+		c.inventory["Potion de mana"]--
+		pointsDeMana := 60
+		c.current_hp += pointsDeMana
+
+		if c.current_hp > c.hp_max {
+			c.current_hp = c.hp_max
+		}
+
+		fmt.Printf("Vous avez utilisé une Potion de Mana et avez récupéré %d points de vie.\n", pointsDeMana)
+		fmt.Printf("Points de vie actuels : %d / %d\n", c.current_hp, c.hp_max)
+	} else {
+		fmt.Println("Vous n'avez pas de Potion de Mana dans l'inventaire.")
+	}
+}

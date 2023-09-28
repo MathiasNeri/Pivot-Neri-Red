@@ -9,9 +9,10 @@ var FourrureVendues = 0
 var PeauTrollVendue = 0
 var CuirSanglierVendue = 0
 var PlumeCorbeauVendue = 0
+var PotionMana = 0
 
 func Marchand(c *Character) {
-	if PotionsDeSoinVendues < 1 || PotionsDePoisonVendues < 1 || LivreDeSortBDF < 1 || FourrureVendues < 1 || PeauTrollVendue < 1 || CuirSanglierVendue < 1 || PlumeCorbeauVendue < 1 {
+	if PotionsDeSoinVendues < 1 || PotionsDePoisonVendues < 1 || LivreDeSortBDF < 1 || PotionMana < 1 || FourrureVendues < 1 || PeauTrollVendue < 1 || CuirSanglierVendue < 1 || PlumeCorbeauVendue < 1 {
 		fmt.Println("Articles disponibles chez le marchand :")
 		if PotionsDeSoinVendues < 1 {
 			fmt.Println("1. Potion de Soin : 3 pièces d'or")
@@ -22,17 +23,20 @@ func Marchand(c *Character) {
 		if LivreDeSortBDF < 1 {
 			fmt.Println("3. Livre de Sort : Boule de Feu : 25 pièces d'or")
 		}
+		if PotionMana < 1 {
+			fmt.Println("4. Potion de Mana : 5 pièces d'or")
+		}
 		if FourrureVendues < 1 {
-			fmt.Println("4. Fourrure de Loup : 4 pièces d'or")
+			fmt.Println("5. Fourrure de Loup : 4 pièces d'or")
 		}
 		if PeauTrollVendue < 1 {
-			fmt.Println("5. Peau de Troll : 7 pièces d'or")
+			fmt.Println("6. Peau de Troll : 7 pièces d'or")
 		}
 		if CuirSanglierVendue < 1 {
-			fmt.Println("6. Cuir de Sanglier : 3 pièces d'or")
+			fmt.Println("7. Cuir de Sanglier : 3 pièces d'or")
 		}
 		if PlumeCorbeauVendue < 1 {
-			fmt.Println("7. Plume de Corbeau : 1 pièce d'or")
+			fmt.Println("8. Plume de Corbeau : 1 pièce d'or")
 		}
 
 		var choix string
@@ -87,13 +91,27 @@ func Marchand(c *Character) {
 				fmt.Println("Votre inventaire est plein !")
 				return
 			}
+			if PotionMana < 1 {
+				c.inventory["Potion de Mana"]++
+				stock++
+				PotionMana++
+				c.money -= 5
+				fmt.Println("Vous avez acheté une Potion de Mana pour 5 pièces d'or et elle a été ajoutée à votre inventaire.")
+			} else {
+				fmt.Println("Le marchand n'a plus de Potion de Mana à vendre.")
+			}
+		case "5":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
 			if FourrureVendues < 1 {
 				c.inventory["Fourrure de Loup"]++
 				stock++
 				c.money -= 4
 				fmt.Println("Vous avez acheté Fourrure de Loup pour 4 pièces d'or et l'item a été ajoutée à votre inventaire.")
 			}
-		case "5":
+		case "6":
 			if !c.LimitInv() {
 				fmt.Println("Votre inventaire est plein !")
 				return
@@ -104,7 +122,7 @@ func Marchand(c *Character) {
 				c.money -= 7
 				fmt.Println("Vous avez acheté Peau de Troll pour 7 pièces d'or et l'item' a été ajoutée à votre inventaire.")
 			}
-		case "6":
+		case "7":
 			if !c.LimitInv() {
 				fmt.Println("Votre inventaire est plein !")
 				return
@@ -115,7 +133,7 @@ func Marchand(c *Character) {
 				c.money -= 3
 				fmt.Println("Vous avez acheté Cuir de Sanglier pour 3 pièces d'or et l'item a été ajoutée à votre inventaire.")
 			}
-		case "7":
+		case "8":
 			if !c.LimitInv() {
 				fmt.Println("Votre inventaire est plein !")
 				return
@@ -169,7 +187,9 @@ func Marchand1(c *Character) {
 }
 
 func Marchand2(c *Character) {
-	if PotionsDeSoinVendues < 1 || PotionsDePoisonVendues < 1 || LivreDeSortBDF < 1 {
+	PotionsDePoisonVendues = 0
+	PotionMana = 0
+	if PotionsDeSoinVendues < 1 || PotionsDePoisonVendues < 1 || LivreDeSortBDF < 1 || PotionMana < 1 {
 		fmt.Println("Articles disponibles chez le marchand :")
 		if PotionsDeSoinVendues < 1 {
 			fmt.Println("1. Potion de Soin : 3 pièces d'or")
@@ -179,6 +199,9 @@ func Marchand2(c *Character) {
 		}
 		if LivreDeSortBDF < 1 {
 			fmt.Println("3. Livre de Sort : Boule de Feu : 25 pièces d'or")
+		}
+		if PotionMana < 1 {
+			fmt.Println("4. Potion de Mana : 5 pièces d'or")
 		}
 
 		var choix string
@@ -227,6 +250,20 @@ func Marchand2(c *Character) {
 				fmt.Println("Vous avez acheté Livre de Sort : Boule de Feu pour 25 pièces d'or et la compétence a été ajoutée à votre inventaire.")
 			} else if LivreDeSortBDF >= 1 {
 				fmt.Println("Le marchand n'a plus de Potion de Livre de Sort :Boule de Feu à vendre.")
+			}
+		case "4":
+			if !c.LimitInv() {
+				fmt.Println("Votre inventaire est plein !")
+				return
+			}
+			if PotionMana < 1 {
+				c.inventory["Potion de Mana"]++
+				stock++
+				PotionMana++
+				c.money -= 5
+				fmt.Println("Vous avez acheté une Potion de Mana pour 5 pièces d'or et elle a été ajoutée à votre inventaire.")
+			} else {
+				fmt.Println("Le marchand n'a plus de Potion de Mana à vendre.")
 			}
 		default:
 			fmt.Println("Article invalide. Veuillez choisir un article valide.")

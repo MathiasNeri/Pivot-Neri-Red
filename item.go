@@ -45,6 +45,9 @@ func UseItem(c *Character, itemName string, adversaire *Monstre) {
 	case "Potion de Poison":
 		fmt.Println("Vous avez choisi d'utiliser une Potion de Poison.")
 		c.takePotPoison(adversaire)
+	case "Potion de Mana":
+		fmt.Println("Vous avez choisi d'utiliser la potion de Mana.")
+		c.takePotMana()
 	default:
 		fmt.Println("Cet objet ne peut pas être utilisé ici.")
 	}
