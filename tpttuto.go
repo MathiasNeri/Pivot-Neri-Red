@@ -133,11 +133,13 @@ func (c *Character) HandleInventory() {
 		return
 	}
 
-	fmt.Println("Laquelle voulez-vous utiliser (entrez le numéro) ?")
-	var choice int
-	fmt.Scanln(&choice)
-
-	switch choice {
+	fmt.Printf("Laquelle voulez-vous utiliser (entrez le numéro) ?")
+	var test int
+	n, err := fmt.Scan(&test)
+	if err != nil {
+		fmt.Println(err)
+	}
+	switch n {
 	case 1:
 		if c.inventory["Potion de Soin"] > 0 {
 			itemToUse := "Potion de Soin"
