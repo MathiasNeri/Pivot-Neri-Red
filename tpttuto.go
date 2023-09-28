@@ -133,7 +133,7 @@ func (c *Character) HandleInventory() {
 		return
 	}
 
-	fmt.Print("Laquelle voulez-vous utiliser (entrez le numéro) ? ")
+	fmt.Println("Laquelle voulez-vous utiliser (entrez le numéro) ?")
 	var choice int
 	fmt.Scanln(&choice)
 
@@ -155,8 +155,4 @@ func (c *Character) HandleInventory() {
 	default:
 		fmt.Println("Choix invalide.")
 	}
-
-	// Capturez l'entrée utilisateur pour vider le tampon du scanner
-	var dummy string
-	fmt.Scanln(&dummy)
 }
