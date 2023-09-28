@@ -46,22 +46,22 @@ func (c *Character) CharCreation() {
 		c.classe = "Elfes"
 		fmt.Println("Vous êtes donc un Elfe !")
 		inventory := map[string]int{}
-		P1 = Init(c.nickname, c.classe, 1, 80, 40, 100, inventory, []string{"Coup de poing"})
+		P1 = Init(c.nickname, c.classe, 1, 80, 40, 100, 100, inventory, []string{"Coup de poing"})
 	case 2:
 		c.classe = "Humains"
 		fmt.Println("Vous êtes donc un Humain !")
 		inventory := map[string]int{}
-		P1 = Init(c.nickname, c.classe, 1, 100, 50, 100, inventory, []string{"Coup de poing"})
+		P1 = Init(c.nickname, c.classe, 1, 100, 50, 100, 100, inventory, []string{"Coup de poing"})
 	case 3:
 		c.classe = "Nains"
 		fmt.Println("Vous êtes donc un Nain !")
 		inventory := map[string]int{}
-		P1 = Init(c.nickname, c.classe, 1, 120, 60, 100, inventory, []string{"Coup de poing"})
+		P1 = Init(c.nickname, c.classe, 1, 120, 60, 100, 100, inventory, []string{"Coup de poing"})
 	default:
 		fmt.Println("Classe invalide. Vous serez un Humain par défaut.")
 		c.classe = "Humains"
 		inventory := map[string]int{}
-		P1 = Init(c.nickname, c.classe, 1, 100, 50, 100, inventory, []string{"Coup de poing"})
+		P1 = Init(c.nickname, c.classe, 1, 100, 50, 100, 100, inventory, []string{"Coup de poing"})
 	}
 
 	Ctipar := "\n\nNous allons pouvoir commencé !\n\n"

@@ -94,6 +94,7 @@ func (c *Character) UseBouleDeFeu(m *Monstre) {
 	fmt.Println("Vous utilisez Boule de Feu contre le monstre!")
 	dmg_bouleDeFeu := 30
 	m.curpv -= dmg_bouleDeFeu
+	c.mana -= 20
 	fmt.Printf("Vous lui infligez %d de dégâts.\n", dmg_bouleDeFeu)
 }
 
@@ -124,14 +125,17 @@ func (c *Character) AttaqueSpecifique(m *Monstre) {
 		// Utilisez l'attaque spécifique des nains
 		Defil("Frappe Sismique !\n")
 		m.curpv -= 15
+		c.mana -= 10
 	case "Elfes":
 		// Utilisez l'attaque spécifique des elfes
 		Defil("Tir de Précision !\n")
 		m.curpv -= 15
+		c.mana -= 10
 	case "Humains":
 		// Utilisez l'attaque spécifique des humains
 		Defil("Stratégie Tactique !\n")
 		m.curpv -= 15
+		c.mana -= 10
 	default:
 		Defil("Classe invalide, utilisez l'attaque basique.\n")
 		c.AttaqueBasique(m)
@@ -185,6 +189,9 @@ func (c *Character) TPTLoup(m *Monstre) {
 					Defil("Le monstre a esquivé l'attaque !\n")
 					continue
 				} else {
+					if !P1.Mana10() {
+						Defil("\nVous n'avez pas assez de mana pour utiliser cette attaque...")
+					}
 					c.AttaqueSpecifique(m)
 					compteur_bdf++
 					DefilLeft("Il lui reste ", &M3, " PV\n")

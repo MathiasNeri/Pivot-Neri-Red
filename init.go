@@ -11,7 +11,7 @@ var M5 Monstre   // Dragon
 var CoupdePoing Skill
 var BouledeFeu Skill
 
-func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, money int, inventory map[string]int, skill []string) Character {
+func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, money int, mana int, inventory map[string]int, skill []string) Character {
 	Character := Character{
 		nickname:      nickname,
 		classe:        classe,
@@ -19,6 +19,7 @@ func Init(nickname string, classe string, lvl int, hp_max int, current_hp int, m
 		hp_max:        hp_max,
 		current_hp:    current_hp,
 		money:         money,
+		mana:          mana,
 		inventory:     inventory,
 		skill:         skill,
 		inventoryList: []string{}, // Initialise la liste vide
