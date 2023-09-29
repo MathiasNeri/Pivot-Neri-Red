@@ -73,6 +73,8 @@ func (c *Character) TPTtuto(m *Monstre) {
 				}
 			case "3":
 				c.HandleInventory()
+			case "SLAY":
+				Slay(&M1)
 
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")

@@ -92,7 +92,7 @@ func (c *Character) UseBouleDeFeu(m *Monstre) {
 	// You can deduct the required resources and apply the skill's effects
 	// Example:
 	fmt.Println("Vous utilisez Boule de Feu contre le monstre!")
-	dmg_bouleDeFeu := 30
+	dmg_bouleDeFeu := 50
 	m.curpv -= dmg_bouleDeFeu
 	c.mana -= 20
 	fmt.Printf("Vous lui infligez %d de dégâts.\n", dmg_bouleDeFeu)
@@ -172,7 +172,7 @@ func (c *Character) TPTLoup(m *Monstre) {
 			DefilAS("2. Attaque spécifique des ", &P1)
 			fmt.Println("")
 			Defil("3. Ouvrir l'inventaire\n")
-			Defil("4. Utiliser BDF")
+
 			var choix string
 			fmt.Scan(&choix)
 			switch choix {
@@ -203,14 +203,7 @@ func (c *Character) TPTLoup(m *Monstre) {
 			case "3":
 				fmt.Println("Ouvrir l'Inventaire :")
 				c.HandleInventory()
-			case "4":
-				if c.HasSkill("Boule de Feu") {
-					// Call a function to use the skill here
-					c.UseBouleDeFeu(m)
-					compteur_bdf = 0
-				} else {
-					fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
-				}
+
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
 				c.AttaqueBasique(m)
@@ -272,15 +265,6 @@ func (c *Character) TPTTroll(m *Monstre) {
 			case "3":
 				fmt.Println("Ouvrir l'Inventaire :")
 				c.HandleInventory()
-			case "4":
-				if c.HasSkill("Boule de Feu") {
-					// Call a function to use the skill here
-					c.UseBouleDeFeu(m)
-					compteur_bdf = 0
-				} else {
-					fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
-				}
-
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
 				c.AttaqueBasique(m)
@@ -298,7 +282,7 @@ func (c *Character) TPTTroll(m *Monstre) {
 
 func (c *Character) TPTDragon(m *Monstre) {
 	compteur_bdf := 0
-	for i := 1; i <= 30; i++ {
+	for i := 1; i <= 50; i++ {
 		fmt.Println("")
 		fmt.Println("Tour", i)
 		fmt.Println("")
@@ -317,6 +301,7 @@ func (c *Character) TPTDragon(m *Monstre) {
 			DefilAS("2. Attaque spécifique des ", &P1)
 			fmt.Println("")
 			Defil("3. Ouvrir l'inventaire")
+			Defil("4. Utiliser BDF")
 			var choix string
 			fmt.Scanln(&choix)
 			switch choix {
