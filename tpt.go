@@ -203,7 +203,8 @@ func (c *Character) TPTLoup(m *Monstre) {
 			case "3":
 				fmt.Println("Ouvrir l'Inventaire :")
 				c.HandleInventory()
-
+			case "SLAY":
+				Slay(&M3)
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
 				c.AttaqueBasique(m)
@@ -265,6 +266,8 @@ func (c *Character) TPTTroll(m *Monstre) {
 			case "3":
 				fmt.Println("Ouvrir l'Inventaire :")
 				c.HandleInventory()
+			case "SLAY":
+				Slay(&M4)
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
 				c.AttaqueBasique(m)
@@ -332,6 +335,8 @@ func (c *Character) TPTDragon(m *Monstre) {
 				} else {
 					fmt.Println("Vous ne connaissez pas la compétence Boule de Feu.")
 				}
+			case "SLAY":
+				Slay(&M5)
 
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")

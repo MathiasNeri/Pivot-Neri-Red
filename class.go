@@ -10,6 +10,7 @@ type Character struct {
 	nickname      string
 	classe        string
 	lvl           int
+	EXP           int
 	hp_max        int
 	current_hp    int
 	money         int
