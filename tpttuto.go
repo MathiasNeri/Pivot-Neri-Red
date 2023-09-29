@@ -56,8 +56,6 @@ func (c *Character) TPTtuto(m *Monstre) {
 				DefilLeft("Il lui reste ", &M1, " PV\n")
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
-					Defil("Vous avez gagné 2500 XP ! Vous montez de niveau tous les 5000 point d'EXP, battez plus de créatures pour grimper en niveaux\n")
-					c.EXP += 2500
 					return
 				}
 			case "2":
@@ -69,24 +67,18 @@ func (c *Character) TPTtuto(m *Monstre) {
 					DefilLeft("Il lui reste ", &M1, " PV\n")
 					if m.curpv <= 0 {
 						Defil("Le monstre est mort !\n")
-						Defil("Vous avez gagné 2500 XP ! Vous montez de niveau tous les 5000 point d'EXP, battez plus de créatures pour grimper en niveaux\n")
-						c.EXP += 2500
 
 						return
 					}
 				}
 			case "3":
 				c.HandleInventory()
-			case "SLAY":
-				Slay(&M1)
 
 			default:
 				Defil("Choix invalide, utilisez l'attaque basique.\n")
 				c.AttaqueBasique(m)
 				if m.curpv <= 0 {
 					Defil("Le monstre est mort !\n")
-					Defil("Vous avez gagné 2500 XP ! Vous montez de niveau tous les 5000 point d'EXP, battez plus de créatures pour grimper en niveaux\n")
-					c.EXP += 2500
 					return
 				}
 			}
@@ -124,7 +116,7 @@ func (c *Character) Attaque3(m *Monstre) {
 
 func (c *Character) HandleInventory() {
 	fmt.Println("Inventaire:")
-	availableItems := []string{"Potion de Soin", "Potion de Poison", "Potion de Mana"}
+	availableItems := []string{"Potion de Soin", "Potion de Poison"}
 
 	// Vérifiez si l'inventaire est vide
 	inventoryEmpty := true
@@ -161,13 +153,6 @@ func (c *Character) HandleInventory() {
 			UseItem(c, itemToUse, &Monstre{})
 		} else {
 			fmt.Println("Vous n'avez pas de Potion de Poison dans l'inventaire.")
-		}
-	case 3:
-		if c.inventory["Potion de Mana"] > 0 {
-			itemToUse := "Potion de Mana"
-			UseItem(c, itemToUse, &Monstre{})
-		} else {
-			fmt.Println("Vous n'avez pas de Potion de Mana dans l'inventaire.")
 		}
 	default:
 		fmt.Println("Choix invalide.")
